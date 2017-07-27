@@ -1,0 +1,25 @@
+<div class="page-wrapper">
+    <div class="pageSrch" ng-show="page.type!='ADD' && page.type!='EDIT'">
+        <div class="container">
+            <div class="srch">
+                <form name="searchform" ng-submit="search()">
+                    <input type="text" class="form-control" ng-model="searchItem" placeholder="{{'Search' | translate}}">
+                    <button type="submit" class="btn">{{'Search' | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="nav-tabs-menu clearfix">
+        <div class="container">
+            <ol class="breadcrumb pull-left">
+                <li class="breadcrumb-item"><a ui-sref="customer.list">Customers</a></li>
+                <li class="breadcrumb-item active">{{page.name}}
+                    <span class="data-count" ng-if="listCount && page.type=='LIST'">({{listCount}} customers)</span>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="page container customer">
+        <div ui-view="customer"></div>
+    </div>
+</div>

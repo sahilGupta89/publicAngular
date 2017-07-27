@@ -1,0 +1,60 @@
+<div ng-if="data.search" class="search-by package"><span>Search by :</span> {{data.search}}
+    <div class="clearSearch" ng-click="clearSearch()"><i class="fa fa-times-circle" aria-hidden="true"></i></div>
+</div>
+<div class="no-more-data" ng-if="packages.closedPackage.length ==0 && packages.topicPackages.length == 0 && packages.customPackage.length == 0 && packages.assignedPackage.length == 0 && packages.agentPackage.length == 0">
+    There are no packages.
+</div>
+<div class="gridViewContent clearfix" ng-if="packages.topicPackages.length > 0">
+    <div class="packTitle">Topic Package</div>
+    <div class="gvc-col" ng-repeat="package in packages.topicPackages">
+        <a class="gvc-container" ui-sref="mylibrary.packagedetail({id:package.id,pack:'TOPIC_PACKAGE',name:package.name})">
+            <div class="photo default"></div>
+            <div class="title">{{package.name}}</div>
+            <div class="digit">Topics <span>{{package.topic}}</span></div>
+        </a>
+    </div>
+</div>
+<div class="gridViewContent clearfix" ng-if="packages.agentPackage.length > 0">
+    <div class="packTitle">Agent Package</div>
+    <div class="gvc-col" ng-repeat="package in packages.agentPackage">
+        <a class="gvc-container" ui-sref="mylibrary.packagedetail({id:package.id,pack:package.type,name:package.name})">
+            <div class="photo default"></div>
+            <div class="title">{{package.name}}</div>
+            <div class="digit">Topics <span>{{package.topic}}</span></div>
+        </a>
+    </div>
+</div>
+<div class="gridViewContent clearfix" ng-if="packages.assignedPackage.length > 0">
+    <div class="packTitle">Assigned Package</div>
+    <div class="gvc-col" ng-repeat="package in packages.assignedPackage">
+        <a class="gvc-container" ui-sref="mylibrary.packagedetail({id:package.packageId,pack:'ASSIGNED_PACKAGE'})">
+            <div class="photo default"></div>
+            <div class="title">{{package.packageName}}</div>
+            <div class="digit">Topics <span>{{package.topicCount}}</span></div>
+        </a>
+    </div>
+</div>
+<div class="gridViewContent clearfix" ng-if="packages.closedPackage.length > 0">
+    <div class="packTitle">Closed Package</div>
+    <div class="gvc-col" ng-repeat="package in packages.closedPackage">
+        <a class="gvc-container" ui-sref="mylibrary.packagedetail({id:package.packageId,pack:''})">
+            <div class="photo" ng-if="!package.icon" style="background-image:url({{package.icon}})"></div>
+            <div class="photo default" ng-if="!package.icon"></div>
+            <div class="title">{{package.curriculum}}, {{package.grade}}</div>
+            <div class="digit">Chapter <span>{{package.chapter}}</span></div>
+            <div class="digit">Subject <span>{{package.subject}}</span></div>
+            <div class="digit">Topics <span>{{package.topic}}</span></div>
+        </a>
+    </div>
+</div>
+<div class="gridViewContent clearfix" ng-if="packages.customPackage.length>0">
+    <div class="packTitle">Customised Package</div>
+    <div class="gvc-col" ng-repeat="package in packages.customPackage">
+        <a class="gvc-container" ui-sref="mylibrary.packagedetail({id:package.packageId,pack:'CUSTOMISED_PACKAGE',name:package.packageName})">
+            <div class="photo" ng-if="!package.icon" style="background-image:url({{package.icon}})"></div>
+            <div class="photo default" ng-if="!package.icon"></div>
+            <div class="title">{{package.packageName}}</div>
+        </a>
+    </div>
+</div>
+<div ng-if="isLoading" class="loader"></div>

@@ -1,0 +1,153 @@
+<div class="page-wrapper">
+    <div id="fixedTopBar">
+        <div class="nav-tabs-menu clearfix">
+            <div class="container">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item active">Cart</li>
+                </ol>
+                <ul class="nav nav-pills nav-pills-f1 pull-right" ng-if="totalPrice > 0 && user.type!='AGENT'">
+                    <li class="f1-text">
+                        <div class="totalPrice">Total Amount : ₹ {{totalPrice}}/<span ng-if="data.topicType=='YEARLY'">yr</span><span ng-if="data.topicType=='MONTHLY'">month</span>
+                            <div class="discount clearfix" ng-if="cart.payments.discountPrice > 0">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Sub Total :</td>
+                                            <td style="text-decoration:line-through;">₹ {{cart.payments.subTotalPrice}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Discount :</td>
+                                            <td>₹ {{cart.payments.discountPrice}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Price :</td>
+                                            <td>₹ {{cart.payments.totalPrice}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn" data-toggle="modal" data-target="#checkoutModal">Pay</div>
+                    </li>
+                </ul>
+                <ul class="nav nav-pills nav-pills-f1 pull-right" ng-if="!noData && !Loading && user.type=='AGENT'">
+                    <li>
+                        <div class="btn" data-toggle="modal" data-target="#checkoutModal">Request to Admin</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page container topic-list packages">
+            <div class="data-topic gridViewContent cart-list-data clearfix">
+                <div ng-if="message">
+                    <div class="alert alert-success">{{message}}</div>
+                </div>
+                <div ng-if="noData" class="no-more-data clearfix">Cart is empty.</div>
+                <div class="topics" ng-repeat="topic in cart.topicDetails">
+                    <div class="removeItem" ng-click="removeCartItem(topic.topicId,'TOPIC');" ng-if="user.type!='AGENT'">X</div>
+                    <div class="removeItem" ng-click="removeCartItem(topic,'TOPIC');" ng-if="user.type=='AGENT'">X</div>
+                    <div class="topic-card">
+                        <div class="photo" style="background-image:url({{topic.icon}});"></div>
+                        <div class="content">
+                            <div class="topic-content">
+                                <div class="topic-head clearfix" ng-if="user.type!='AGENT'">
+                                    <div class="price pull-left"><span ng-if="user.type!='AGENT'">₹ {{topic.price}}/yr</span>&nbsp;</div>
+                                </div>
+                                <h3>{{topic.name}}</h3>
+                                <div ng-if="user.type!='AGENT'">
+                                    <star-rating ng-model="topic.rating" max="5" readonly="true"></star-rating>
+                                    <div class="date">End Date : <span>{{topic.endDate | date : "dd.MM.y"}}</span></div>
+                                </div>
+                                <div class="clearfix topic-content-category" ng-if="user.type=='AGENT'">
+                                    <div ng-repeat="merged in topic.mergedObject" class="tcc-merged clearfix">
+                                        <h4>{{merged.language}}</h4>
+                                        <div class="tcc clearfix">
+                                            <div ng-repeat="(key,category) in merged.categoryName">
+                                                <lable class="cart-tag">{{category}}</lable>
+                                            </div>
+                                            <div ng-repeat="(key,category) in merged.contentType">
+                                                <lable class="cart-tag">{{category}}</lable>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gvc-col" ng-repeat="package in cart.packageDetails">
+                    <div class="gvc-delete" ng-click="removeCartItem(package.packageId,'PACKAGE');">X</div>
+                    <a class="gvc-container">
+                        <div class="photo" style="background-image:url({{package.icon}});"></div>
+                        <div class="price">₹ {{package.finalPrice}}</div>
+                        <div class="title">{{package.curriculum}}, {{package.grade}}</div>
+                        <div class="digit">Chapter <span>{{package.chapterCount}}</span></div>
+                        <div class="digit">Subject <span>{{package.subjectCount}}</span></div>
+                        <div class="digit">Topics <span>{{package.topicCount}}</span></div>
+                        <div class="date">End Date : <span>{{package.endDate | date : "dd.MM.y"}}</span></div>
+                    </a>
+                </div>
+                <!-- customPackage -->
+                <div class="gvc-col" ng-repeat="package in cart.customPackage">
+                    <div class="gvc-delete" ng-click="removeCartItem(package.packageId,'CUSTOM_PACKAGE');">X</div>
+                    <a class="gvc-container">
+                        <div class="photo" style="background-image:url({{package.icon}});"></div>
+                        <div class="price">₹ {{package.finalPrice}}</div>
+                        <div class="title">{{package.packageName}}</div>
+                        <div class="digit">Topics <span>{{package.topics.length}}</span></div>
+                        <div class="date">End Date : <span>{{package.endDate | date : "dd.MM.y"}}</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loader" ng-if="Loading">Loading...</div>
+</div>
+<!-- <iframe ng-src="{{trustSrc(checkoutResponse)}}" class="checkout_response" ng-if="checkoutResponse"></iframe> -->
+<!-- Modal -->
+<div id="checkoutModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content checkoutModal">
+            <div class="modal-body">
+                <div ng-if="user.type!='AGENT'">
+                    <h4>Total Amount : ₹ {{totalPrice}}/ yr<!-- <span ng-if="data.topicType=='YEARLY'">yr</span><span ng-if="data.topicType=='MONTHLY'">month</span> --></h4>
+                </div>
+                <!-- <div class="radio-group clearfix form-group">
+                    <h4>Package subscription <span class="red">*</span></h4>
+                    <div class="radio-control">
+                        <input type="radio" name="type" id="radio1" ng-model="data.topicType" value="MONTHLY">
+                        <label for="radio1">Monthly</label>
+                    </div>
+                    <div class="radio-control">
+                        <input type="radio" name="type" id="radio2" ng-model="data.topicType" value="YEARLY">
+                        <label for="radio2">Yearly</label>
+                    </div>
+                </div> -->
+                <div ng-if="user.type=='AGENT'">
+                    <div class="form-group clearfix">
+                        <h4>License</span></h4>
+                        <input type="text" class="form-control" ng-model="data.license">
+                    </div>
+                    <div class="form-group clearfix">
+                        <h4>Link for embedding <span>(e.g. google.com)</span></h4>
+                        <div class="embeddedLinksList">
+                            <div class="domainName" ng-repeat="(key,data) in embeddedLink">
+                                <input type="text" class="form-control" ng-model="embeddedLink[key]" placeholder="Domain Name">
+                                <div class="btn" ng-click="removeDomain(key)"><i class="fa fa-times" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                        <div class="addMoreDomain" ng-if="isAddEmbedded" ng-click="addMoreDomain()">Add More Domain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-orange" ng-click="checkout()">
+                    <span ng-if="user.type=='AGENT'">REQUEST</span>
+                    <span ng-if="user.type!='AGENT'">PAY</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

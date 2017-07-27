@@ -1,0 +1,75 @@
+<div class="data-topic">
+    <!--Data Topic Filters-->
+    <div ng-include="'views/mylibrary/filter.html'"></div>
+    <!--Data Topic List-->
+    <div class="data-topic-wrap">
+        <!-- <div class="packageTopicData" ng-if="count > 0">
+            <span ng-if="packageName">{{packageName}}</span>
+            <span class="totalcount">({{count}} topics)</span>
+        </div> -->
+        <div ng-if="data.search" class="search-by"><span>Search by :</span> {{data.search}}
+            <div class="clearSearch" ng-click="clearSearch()"><i class="fa fa-times-circle" aria-hidden="true"></i></div>
+        </div>
+        <!--Filters Breadcrum-->
+        <div class="apply-filter clearfix" ng-if="breadCrumbFilterData">
+            <div class="apply-filter-title clearfix">Filters :
+                <div class="btn btn-xs pull-right" ng-click="clearFilter()">Clear All</div>
+            </div>
+            <div ng-repeat="(key,value) in breadCrumbFilterData" class="apply-filter-group">
+                <div ng-repeat="(key,breadCrumbs) in value" class="clearfix">
+                    <div class="title">{{key}} :</div>
+                    <div ng-repeat="breadCrumb in breadCrumbs" class="breadCrumb" ng-click="removeFilterBy(key,breadCrumb)">{{breadCrumb}}</div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="message">
+            <div class="alert alert-success">{{message}}</div>
+        </div>
+        <!--Topics List-->
+        <div class="data-topic-list">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 topics" ng-repeat="topic in topics track by $index" ng-class="getEvenTopic(topics.indexOf(topic))">
+                    <div class="topic-select" ng-if="renewType=='1'">
+                        <input type="checkbox" id="buytopic_{{topic.Id}}" checklist-model="renewData.topicId" checklist-value="topic.Id" class="topicChecked">
+                        <label for="buytopic_{{topic.Id}}">Add to buy</label>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topicLC clearfix">
+                            <div class="topicLink" ui-sref="topic.content({language:topic.topicLanguage,name:topic.name})"></div>
+                            <div class="photo" style="background-image:url({{topic.icon}});" ng-if="topic.icon"></div>
+                            <div class="photo" ng-if="!topic.icon"></div>
+                            <div class="content">
+                                <div class="topic-content">
+                                    <div class="topic-head clearfix" ui-sref="topic.content({language:topic.topicLanguage,name:topic.name})">
+                                        <div ng-if="topic.price=='0'" class="price pull-left">Free</div>
+                                        <div class="price pull-left" ng-if="(user.type=='STUDENT' || user.type=='TEACHER')  && topic.price!='0'">₹ {{topic.price}}/yr</div>&nbsp;
+                                    </div>
+                                    <h3>{{topic.name}}</h3>
+                                    <div class="desc" ng-if="user.type!='AGENT'">{{topic.description}}</div>
+                                    <star-rating ng-model="topic.averageRating" max="5" readonly="true"></star-rating>
+                                    <h4>{{topic.grade}}, {{topic.subject}}, {{topic.chapter}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- For user type Student and teacher -->
+                        <div class="buttons" ng-if="user.type!='AGENT'">
+                            <ul>
+                                <li ng-if="page != 'Favorite'">
+                                    <div class="btn like" ng-click="toggleFavourite(topic.Id,$event)" ng-class="(topic.isFavourite === true) ? 'favorite' : ''">Favorite</div>
+                                </li>
+                                <li>
+                                    <div class="btn share" ng-click="shareTopic(topic);">Share</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="topics.length==0 && !loading" class="no-more-data">There are no topics</div>
+        <div ng-if="loading" class="loader relative clearfix overlay" style="margin:20px 0"></div>
+    </div>
+</div>
+<!-- Social Share -->
+<div ng-include="'views/partial/socialshare.html'"></div>

@@ -1,0 +1,100 @@
+<div class="page-wrapper">
+    <div class="nav-tabs-menu clearfix">
+        <div class="container">
+            <ol class="breadcrumb pull-left">
+                <li class="breadcrumb-item">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+    <div class="page container">
+        <div ng-if="isLoading" class="loader"></div>
+        <div class="col-sm-6">
+            <div class="panel dashboard-cols">
+                <div class="panel-heading">License</div>
+                <div class="panel-body license">
+                    <div ng-if="license == 0" class="noLisense"><span>0</span>License</div>
+                    <div ng-show="license">
+                        <div class="licenseGraphWrap">
+                            <div class="content"><span class="license">{{license}}</span> <span>license left</span></div>
+                            <div id="licenseGraph" class="licenseGraph"></div>
+                        </div>
+                        <table class="table licenseGraphTable">
+                            <tbody>
+                                <tr>
+                                    <td class="text-left">Total license</td>
+                                    <td class="text-right license-text">{{totalLicense}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Used license</td>
+                                    <td class="text-right license-text">{{usedLicense}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel dashboard-cols">
+                <div class="panel-heading">Customers</div>
+                <div class="panel-body customers">
+                    <div id="customerPieChart" class="customerPieChart"></div>
+                    <div class="dashboardCustomerData">
+                        <ul class="clearfix">
+                            <li class="student">
+                                <div class="content">
+                                    <h4>Student</h4>
+                                    <h3>{{customers.students}}</h3>
+                                </div>
+                            </li>
+                            <li class="teacher">
+                                <div class="content">
+                                    <h4>Teacher</h4>
+                                    <h3>{{customers.teachers}}</h3>
+                                </div>
+                            </li>
+                            <li class="agent">
+                                <div class="content">
+                                    <h4>Sub Agent</h4>
+                                    <h3>{{customers.sub_agent}}</h3>
+                                </div>
+                            </li>
+                            <li class="school">
+                                <div class="content">
+                                    <h4>School</h4>
+                                    <h3>{{customers.school}}</h3>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel dashboard-cols">
+                <div class="panel-heading">
+                    Agent's customers
+                    <select class="form-control" ng-model="data.agent">
+                        <option value="{{agent._id}}" ng-repeat="agent in agents" ng-selected="agent.emailId == data.agent">{{agent.emailId}}</option>
+                    </select>
+                </div>
+                <div class="panel-body agents">
+                    <div id="agentDataGraph" class="agentDataGraph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel dashboard-cols">
+                <div class="panel-heading">
+                    Enganged Hours
+                    <select class="form-control" ng-model="data.enganged">
+                        <option value="{{agent._id}}" ng-repeat="agent in agents" ng-selected="agent.emailId == data.enganged">{{agent.emailId}}</option>
+                    </select>
+                </div>
+                <div class="panel-body agents">
+                    <div id="engangedTimeGraph" class="engangedTimeGraph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

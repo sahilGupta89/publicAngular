@@ -1,0 +1,60 @@
+<div class="page-wrapper">
+    <div class="login-banner"></div>
+    <div class="page container">
+        <form role="form" name="loginform" ng-submit="login()">
+            <div class="login-page">
+                <div ng-if="msgError">
+                    <div class="alert alert-danger">{{message}}</div>
+                </div>
+                <div ng-if="msgSuccess">
+                    <div class="alert alert-success">{{message}}</div>
+                </div>
+                <div class="login-title">
+                    <h3>Login with</h3>
+                    <h2>Social networks</h2>
+                </div>
+                <!-- Social Login Start -->
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div ng-click="facebooklogin()" class="btn btn-facebook">FACEBOOK </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div ng-click="googlelogin()" class="btn btn-google">GOOGLE +</div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="or-line"><span>OR</span></div>
+                <!-- Social Login End -->
+                <div class="login-title">
+                    <h3>Login with</h3>
+                    <h2>Your site account</h2>
+                </div>
+                <!--Form Message End-->
+                <div class="form-group" ng-class="{ 'has-error': loginform.emailId.$dirty && loginform.emailId.$error.required }">
+                    <input type="email" name="emailId" id="emailId" ng-model="loginData.emailId" placeholder="Email ID *" class="form-control" required autocomplete="off">
+                    <span ng-show="loginform.emailId.$dirty && loginform.emailId.$error.required" class="form-error">Email is required</span>
+                    <span ng-show="loginform.emailId.$error.email" class="form-error">Invalid Email ID.</span>
+                </div>
+                <div ng-class="{ 'has-error': loginform.password.$dirty && loginform.password.$error.required }">
+                    <input type="password" name="password" id="password" ng-model="loginData.password" placeholder="Password *" class="form-control" required autocomplete="off">
+                    <span ng-show="loginform.password.$dirty && loginform.password.$error.required" class="form-error">Password is required</span>
+                </div>
+                <div class="form-group clearfix">
+
+                    <div class="rememberMe pull-left btn btn-link">
+                        <input type="checkbox" id="remeberMe" value="1" />
+                        <label for="remeberMe">Remember me</label>
+                    </div>
+
+                    <a class="btn btn-link pull-right" ui-sref="forgotpassword" style="padding-left:0px; padding-right:0px;">Forgot Password</a>
+                </div>
+                <div class="form-group text-center clearfix">
+                    <button type="submit" class="btn btn-orange" ng-disabled="loginform.$invalid || Loading">Login</button>
+                </div>
+                <div class="form-group text-center text">Not a member yet? <a ui-sref="register">Register New</a></div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Forgot Password Modal End -->
+<div class="loader" ng-if="Loading">Loading...</div>

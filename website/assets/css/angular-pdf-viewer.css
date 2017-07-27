@@ -1,0 +1,225 @@
+::selection {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+::-moz-selection {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+pdf-viewer {
+    display: block;
+}
+
+pdf-viewer .page {
+    position: relative;
+    display: block;
+    margin: 10px auto;
+    box-shadow: 0px 0px 10px #666666;
+    ;
+    background-color: #ffffff;
+}
+
+pdf-viewer .text-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    height: 1000px;
+}
+
+pdf-viewer .text-layer > div {
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0% 0%;
+}
+
+pdf-viewer .text-layer .highlight {
+    margin: -1px;
+    padding: 1px;
+    background-color: rgba(180, 0, 170, 0.2);
+    border-radius: 4px;
+}
+
+pdf-viewer .text-layer .highlight.begin {
+    border-radius: 4px 0px 0px 4px;
+}
+
+pdf-viewer .text-layer .highlight.end {
+    border-radius: 0px 4px 4px 0px;
+}
+
+pdf-viewer .text-layer .highlight.middle {
+    border-radius: 0px;
+}
+
+pdf-viewer .text-layer .highlight.selected {
+    background-color: rgba(0, 100, 0, 0.2);
+}
+
+pdf-viewer .page .annotLink > a {
+    position: absolute;
+    font-size: 1em;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+pdf-viewer .page .annotLink > a:hover {
+    background-color: rgba(255, 255, 0, 0.25);
+}
+
+pdf-viewer .page .annotText > img {
+    position: absolute;
+    cursor: pointer;
+}
+
+pdf-viewer .page .annotTextContentWrapper {
+    position: absolute;
+    width: 20em;
+}
+
+pdf-viewer .page .annotTextContent {
+    z-index: 200;
+    float: left;
+    max-width: 20em;
+    background-color: #FFFF99;
+    box-shadow: 0px 2px 5px #333;
+    border-radius: 2px;
+    padding: 0.6em;
+    cursor: pointer;
+}
+
+pdf-viewer .page .annotTextContent > h1 {
+    font-size: 1em;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 0.2em;
+}
+
+pdf-viewer .page .annotTextContent > p {
+    padding-top: 0.2em;
+}
+
+
+/*New Style*/
+
+pdf-viewer {
+    /* position: fixed;
+    top: 30px;
+    bottom: 0;
+    left: 0;
+    right: 0;*/
+    overflow: auto;
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+.loaderProgress {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -5px;
+    height: 10px;
+    width: 100px;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+.loaderProgress:after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    z-index: -1;
+}
+
+.progress-bar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #eee;
+    background-color: #ffffff;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.progress-bar span.bar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: #60c84d;
+    height: 100%;
+    text-align: left;
+}
+
+.zoom_wrapper,
+.select_page_wrapper,
+.demos_wrapper,
+.load_file_wrapper,
+.search_wrapper,
+.print_wrapper {
+    display: inline-block;
+    margin: 3px 10px;
+}
+
+.select_page_wrapper input[type="text"] {
+    width: 40px;
+    text-align: center;
+}
+
+.demos_wrapper {
+    float: right;
+}
+
+.topic-data .topicContentHead .zoom_wrapper {
+    margin-right: 0px;
+}
+
+.topic-data .topicContentHead .zoom_wrapper .btn {
+    font-size: 16px;
+    float: left;
+    margin-right: 8px;
+    padding: 0px 5px;
+}
+
+.topic-data .topicContentHead .form-control {
+    padding: 2px 20px 2px 2px;
+    height: auto;
+    font-size: 12px;
+    float: left;
+    margin-right: 8px;
+    width: auto;
+}
+
+.topic-data .topicContentHead .pdf-toolbar {
+    float: left;
+}
+
+.topic-data .topicContentHead .pdf-toolbar .select_page_wrapper {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.topic-data .topicContentHead .pdf-toolbar .select_page_wrapper span {
+    display: block;
+    float: left;
+    line-height: 22px;
+}
+
+.topic-data .topicContentHead .pdf-toolbar .select_page_wrapper .form-control {
+    width: 30px;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+}

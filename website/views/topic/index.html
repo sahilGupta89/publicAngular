@@ -1,0 +1,48 @@
+<div class="page-wrapper">
+    <div ng-show="!pageLoad">
+        <div class="topic-detail-head">
+            <div class="container">
+                <div class="clearfix tdh-head">
+                    <div class="tdh-title">{{data.topicDetails.name}}&nbsp;</div>
+                </div>
+                <div class="gtns-group clearfix">
+                    <ul class="btns clearfix">
+                        <li>
+                            <div class="btn btn-icon btn-like" ng-click="toggleFavourite($event)" ng-class="(data.topicDetails.isFavourite == true) ? 'favorite' : ''">Like</div>
+                        </li>
+                        <li>
+                            <div class="btn btn-icon btn-share" ng-click="shareTopic()">Share</div>
+                        </li>
+                        <li>
+                            <div class="btn" ng-click="getNote()">Note</div>
+                        </li>
+                    </ul>
+                    <select class="topic-lang" ng-change="changeTopicLanguage()" ng-model="topicLanguage">
+                        <option value="">Select</option>
+                        <option ng-repeat="(key,language) in data.languages" value="{{key}}" ng-selected="data.topicDetails.language==key">{{key}}</option>
+                    </select>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li ng-class="getClass('topic.content')">
+                        <a ui-sref="topic.content({language:obj.topicLanguage,name:obj.topicName})">Content</a>
+                    </li>
+                    <li ng-class="getClass('topic.assesment')" ng-if="data.assessments.length > 0">
+                        <a ui-sref="topic.assesment({language:obj.topicLanguage,name:obj.topicName})">Assesment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page container topic-detail">
+            <div class="topic-detail-wrap">
+                <div ui-view="topic"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Save Note -->
+<div ng-include="'views/topic/note.html'"></div>
+<!-- Social Share -->
+<div ng-include="'views/partial/socialshare.html'"></div>
+<!--Loading-->
+<div ng-if="pageLoad || loading" class="loader clearfix"></div>
+<div ng-if="isLoading" class="loader clearfix"></div>

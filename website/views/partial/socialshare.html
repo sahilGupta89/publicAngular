@@ -1,0 +1,32 @@
+<!-- Share Modal -->
+<div id="socialModal" class="modal fade modal-note" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Share on</h4>
+            </div>
+            <div class="modal-body btn-share">
+                <button class="btn btn-share-google" socialshare socialshare-provider="google" socialshare-url="{{socialshare.url}}" socialshare-popup-height="300" socialshare-popup-width="400" socialshare-trigger="click">
+                    <i class="fa fa-google-plus"></i>
+                </button>
+                <button class="btn btn-share-facebook" socialshare socialshare-provider="facebook" socialshare-type="sharer" socialshare-description="{{socialshare.description}}" socialshare-title="{{socialshare.text}}" socialshare-url="{{socialshare.url}}" socialshare-popup-height="300" socialshare-popup-width="400" socialshare-trigger="click">
+                    <i class="fa fa-facebook"></i>
+                </button>
+                <button class="btn btn-share-twitter" socialshare socialshare-provider="twitter" socialshare-hashtags="sterling, publishers,e-learing" socialshare-via="twitter" socialshare-text="{{socialshare.text}}" socialshare-url="{{socialshare.url}}" socialshare-popup-height="300" socialshare-popup-width="400" socialshare-trigger="click">
+                    <i class="fa fa-twitter"></i>
+                </button>
+                <button class="btn btn-share-linkedin" socialshare socialshare-provider="linkedin" socialshare-text="{{socialshare.text}}" socialshare-url="{{socialshare.url}}" socialshare-description="{{socialshare.description}}" socialshare-source="PixelsED" socialshare-popup-height="300" socialshare-popup-width="400" socialshare-trigger="click">
+                    <i class="fa fa-linkedin"></i>
+                </button>
+                <button class="btn btn-share-skype" socialshare socialshare-provider="skype" socialshare-url="{{socialshare.url}}" socialshare-text="{{socialshare.text}}" socialshare-popup-height="800" socialshare-popup-width="400" socialshare-trigger="click">
+                    <i class="fa fa-skype"></i>
+                </button>
+                <a class="btn btn-share-whatsapp" socialshare socialshare-provider="whatsapp" socialshare-url="{{socialshare.url}}" socialshare-text="{{socialshare.text}}">
+                    <i class="fa fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

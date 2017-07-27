@@ -1,0 +1,34 @@
+<div class="topic-detail-h2 comments-toggle-btn" data-toggle="collapse" data-target="#CommentsCollapsible" aria-expanded="true">Comments <span ng-if="data.comments.length > 0">({{data.comments.length}})</span></div>
+<div id="CommentsCollapsible" class="collapse in" aria-expanded="true">
+    <div class="well-comment" ng-repeat="comment in data.comments  | limitTo: commentLimit">
+        <div class="photo" ng-if="comment.customerId.profilePicUrl" style="background-image: url({{comment.customerId.profilePicUrl}})">
+        </div>
+        <div class="photo default" ng-if="!comment.customerId.profilePicUrl"></div>
+        <h4>
+            <div ng-if="comment.customerId.firstName && comment.customerId.lastName">
+                {{comment.customerId.firstName}} {{comment.customerId.lastName}}
+            </div>
+
+            <div ng-if="!comment.customerId.firstName && !comment.customerId.lastName">
+                {{comment.customerId.emailId}}
+            </div>
+        </h4>
+        <h6>{{ comment.addedDate | date : "dd/MM/y" }}</h6>
+        <star-rating ng-model="comment.ratingStars" max="5" readonly="true"></star-rating>
+        <p>{{comment.comments}}</p>
+    </div>
+    <div class="text-center form-group">
+        <div class="btn btn-green" ng-click="readMoreComment($event)" ng-if="data.comments.length > 5">Read more</div>
+    </div>
+    <div ng-if="commentMsg" class="commentMsg alert alert-success">{{commentMsg}}</div>
+    <div class="post-comment">
+        <form name="ratingform" ng-submit="postComment()">
+            <textarea class="form-control" name="ratingComment" id="ratingComment" ng-model="comment.comments" placeholder="Your Comment" required></textarea>
+            <span ng-show="ratingform.ratingComment.$dirty &&  ratingform.ratingComment.$invalid" class="form-error">Your Comment is required</span>
+            <div class="clearfix post-comment-btns">
+                <div class="rating pull-left" star-rating ng-model="comment.ratingStars" max="5"></div>
+                <button type="submit" class="btn btn-green pull-right" ng-disabled="ratingform.$invalid">Post</button>
+            </div>
+        </form>
+    </div>
+</div>

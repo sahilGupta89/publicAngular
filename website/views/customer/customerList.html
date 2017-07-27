@@ -1,0 +1,119 @@
+<div class="c-btns clearfix" ng-if="user.accessRights[1].add || user.accessRights[2].add">
+    <ul class="pull-left clearfix">
+        <li>
+            <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="csv/*" ngf-max-height="1000" ngf-max-size="200MB" class="upload">Upload Excel</button>
+        </li>
+        <li><a href="javascript:void(0)" ng-click="exportData()" class="export">Export Excel</a></li>
+    </ul>
+    <ul class="pull-right clearfix">
+        <li><a ui-sref="customer.add" class="addcustomer">Add Customer</a></li>
+    </ul>
+</div>
+<div ng-if="message">
+    <div class="alert alert-success">{{message}}</div>
+</div>
+<div class="c-filter">
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-8 form-group">
+            <div class="row">
+                <div class="col-xs-3">
+                    <label class="c-label">User Type :</label>
+                    <multiselect multiple="true" ng-model="data.userType" options="user for user in filters.userType" change="selected()"></multiselect>
+                </div>
+                <div class="col-xs-3">
+                    <label class="c-label">Gender :</label>
+                    <multiselect multiple="true" ng-model="data.gender" options="gender for gender in filters.gender" change="selected()"></multiselect>
+                </div>
+                <div class="col-xs-3">
+                    <label class="c-label">Country :</label>
+                    <multiselect multiple="true" class="right" ng-model="data.country" options="country for country in filters.country" change="selected()"></multiselect>
+                </div>
+                <div class="col-xs-3">
+                    <label class="c-label">Grade :</label>
+                    <multiselect multiple="true" class="right" ng-model="data.grade" options="grade for grade in filters.grade" change="selected()"></multiselect>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4 form-group">
+            <label class="c-label">Registration Date :</label>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-6 c-from">
+                    <label for="registrationFrom">From</label>
+                    <input type="text" id="registrationFrom" placeholder="DD/MM/YYYY" class="form-control">
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-6 c-to">
+                    <label for="registrationTo">To</label>
+                    <input type="text" id="registrationTo" placeholder="DD/MM/YYYY" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="fixedShareBar" class="c-fixed">
+    <div class="c-share" ng-if="customers.length > 0">
+        <div class="c-container clearfix">
+            <div class="customer-select pull-left">
+                <input type="checkbox" id="user_{{customer.customerId}}" ng-click="selectAllCustomers($event)" ng-checked="share.users.length == customers.length">
+                <label for="user_{{customer.customerId}}">Select All</label>
+            </div>
+            <div class="btn btn-share pull-right" ng-click="shareUsers()">Share</div>
+        </div>
+    </div>
+    <div class="customer-list clearfix">
+        <div class="customer-list-col" ng-repeat="customer in customers" ng-if="customer.customerId != user.id">
+            <div class="customer">
+                <div class="title">
+                    {{customer.name}}
+                    <div class="customer-select">
+                        <input type="checkbox" id="user_{{customer.customerId}}" checklist-model="share.users" checklist-value="customer.customerId">
+                        <label for="user_{{customer.customerId}}">Select</label>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="photo" ng-if="customer.profilePic" style="background-image: url({{customer.profilePic}})"></div>
+                    <div class="photo default" ng-if="!customer.profilePic"></div>
+                    <div class="type">{{customer.userType}}</div>
+                    <p>{{customer.emailId}}</p>
+                    <p>{{customer.mobileNo}}</p>
+                </div>
+                <div class="table-content">
+                    <table class="table table-striped table-bordered">
+                        <tbody>
+                            <tr ng-if="customer.userType=='STUDENT' || customer.userType=='TEACHER'">
+                                <td>Curriculum</td>
+                                <td>{{customer.curriculum}}</td>
+                            </tr>
+                            <tr ng-if="customer.userType=='STUDENT' || customer.userType=='TEACHER'">
+                                <td>Grade</td>
+                                <td>
+                                    <span ng-repeat="value in customer.grade">{{value}}{{$last ? '' : ', '}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Registration Date</td>
+                                <td>{{customer.registerationDate | date : "dd/MM/y"}}</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>{{customer.addressValue}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btns clearfix">
+                    <div class="pull-right btn" title="Unblock" ng-if="((user.accessRights[1].delete && (customer.userType =='STUDENT' || customer.userType =='TEACHER')) || (user.accessRights[2].delete && (customer.userType =='SUB_AGENT' || customer.userType =='SCHOOL'))) && customer.block" ng-click="unblockAgent(customer.customerId)">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div class="pull-right btn" title="Block" ng-if="((user.accessRights[1].delete && (customer.userType =='STUDENT' || customer.userType =='TEACHER')) || (user.accessRights[2].delete && (customer.userType =='SUB_AGENT' || customer.userType =='SCHOOL'))) && !customer.block" ng-click="blockAgent(customer.customerId)">
+                        <i class="fa fa-unlock"></i>
+                    </div>
+                    <a class="pull-right btn" ui-sref="customer.edit({id:customer.customerId})" ng-if="(user.accessRights[1].edit && (customer.userType =='STUDENT' || customer.userType =='TEACHER')) || (user.accessRights[2].edit && (customer.userType =='SUB_AGENT' || customer.userType =='SCHOOL'))"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <a class="pull-right btn" ui-sref="customer.view({id:customer.customerId})"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="no-more-data" ng-if="customers.length == 0">No Date Found.</div>
+<div ng-if="Loading" class="loader relative clearfix overlay" style="margin:20px 0"></div>
+<div ng-if="isLoading && !Loading" class="loader"></div>

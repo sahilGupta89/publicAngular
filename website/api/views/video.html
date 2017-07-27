@@ -1,0 +1,6 @@
+<div ng-if="isContent">
+    <div ng-if="contentUrl">
+        <jwplayer player-id="myplayer" url="contentUrl"></jwplayer>
+    </div>
+</div>
+<div ng-if="!isContent" class="loader"></div>

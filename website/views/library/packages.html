@@ -1,0 +1,35 @@
+<!--Package List Start-->
+<div class="page container packages">
+    <div class="gridViewContent clearfix">
+        <div class="gvc-col" ng-repeat="package in packages">
+            <div class="topic-select">
+                <input type="checkbox" id="package_{{package.packageId}}" checklist-model="data.packageCart" checklist-value="package.packageId">
+                <label for="package_{{package.packageId}}">Add to buy</label>
+            </div>
+            <a class="gvc-container" ui-sref="library.package({id:package.packageId})">
+                <div class="photo" style="background-image:url({{package.icon}});"></div>
+                <div class="price"><span ng-if="user.type!='AGENT'">₹ {{package.price}}</span>&nbsp;</div>
+                <div class="title">{{package.curriculum}}, {{package.grade}}</div>
+                <div class="digit">Chapter <span>{{package.chapter}}</span></div>
+                <div class="digit">Subject <span>{{package.subject}}</span></div>
+                <div class="digit">Topics <span>{{package.topic}}</span></div>
+            </a>
+        </div>
+        <!-- Customised Package -->
+        <div class="gvc-col" ng-repeat="package in customisedPackage">
+            <div class="topic-select">
+                <input type="checkbox" id="package_{{package.packageId}}" checklist-model="data.customPackageCart" checklist-value="package.packageId">
+                <label for="package_{{package.packageId}}">Add to buy</label>
+            </div>
+            <a class="gvc-container" ui-sref="library.package({id:package.packageId,pack:package.packageType})">
+                <div class="photo" style="background-image:url({{package.icon}});"></div>
+                <div class="price"><span ng-if="user.type!='AGENT'">₹ {{package.price}}</span>&nbsp;</div>
+                <div class="title">{{package.packageName}}</div>
+                <div class="digit">Topics <span>{{package.topicCount}}</span></div>
+            </a>
+        </div>
+    </div>
+    <div ng-if="isLoading" class="loader relative clearfix overlay" style="margin:20px 0"></div>
+</div>
+<!--Package List End-->
+<div ng-if="Loading" class="loader"></div>

@@ -1,0 +1,6 @@
+<div ng-if="!isLoadind">
+    <div ng-if="contentUrl">
+        <jwplayer player-id="myplayer" url="contentUrl"></jwplayer>
+    </div>
+</div>
+<div class="loader" ng-if="isLoadind"></div>

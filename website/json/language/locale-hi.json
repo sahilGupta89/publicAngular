@@ -1,0 +1,26 @@
+{
+	"Register": "रजिस्टर",
+    "Login": "लॉग इन करें",
+    "Welcome": "स्वागत हे",
+    "Logout": "लोग आउट",
+    "Settings": "सेटिंग्स",
+    "Home": "घर",
+    "MyPackage": "मेरा पैकेज",
+    "Favorite": "पसंदीदा",
+    "History": "इतिहास",
+	"AllTopic": "सभी विषय",
+	"BestSellers": "बेस्ट सेलर्स",
+	"NewRelease": "नई रिलीज",
+	"FreeTopic": "फ्री विषय",
+	"Curriculum": "पाठ्यचर्या",
+	"Grade": "ग्रेड",
+	"Subject": "विषय",
+	"Chapter": "अध्याय",
+	"Language": "भाषा",
+	"Search": "खोज",
+	
+	
+	"TITLE": "स्टर्लिंग छात्र पैनल",
+    "en": "English",
+    "hi": "Hindi"
+}

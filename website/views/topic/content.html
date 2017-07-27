@@ -1,0 +1,114 @@
+<div class="row clearfix topic-content-data">
+    <div class="col-xs-12 col-sm-8">
+        <div class="topic-data">
+            <div class="lock-screen-data" ng-if="!isContent && !content.isShow">
+                <div class="lc-img" style="background-image:url({{contentIcon}})"></div>
+                <div class="lc-data">
+                    <h4>Learn with engaging videos, assessments and more.</h4>
+                    <button type="button" class="btn btn-orange" ng-click="buyTopic()">Buy</button>
+                </div>
+            </div>
+            <!-- If content -->
+            <div ng-show="content.isShow">
+                <!-- File Header-->
+                <div class="topicContentHead clearfix" ng-if="content.type!='video'">
+                    <!-- epub File Menu -->
+                    <div class="btn-toolbar clearfix" ng-if="content.type=='epub' && !isContentLoad">
+                        <div ng-click="getEPubPrevPage()" class="prev"></div>
+                        <div ng-click="getEPubNextPage()" class="next"></div>
+                    </div>
+                    <!-- Pdf File Menu -->
+                    <div class="btn-toolbar clearfix" ng-if="content.type == 'pdf' && !isContentLoad">
+                        <div class="plus" data-ng-click="zoomOut()"></div>
+                        <div class="minus" data-ng-click="zoomIn()"></div>
+                    </div>
+                    <!-- Full Screen -->
+                    <div class="fullScreen" ng-click="fullScreen()"></div>
+                </div>
+                <div class="topicContentData">
+
+                <div class="dataArrowPrev" ng-if="direct.length > 1 && isFirst" ng-click="contentNavigation('PREV')"></div>
+                <div class="dataArrowNext" ng-if="direct.length > 1 && isLast" ng-click="contentNavigation('NEXT')"></div>
+
+                    <div class="isContentLoad" ng-if="isContentLoad"></div>
+                    <!-- video content -->
+                    <div ng-show="content.type=='video'">
+                        <jwplayer player-id="myplayer" url="content.url"></jwplayer>
+                    </div>
+                    <!-- Zip and text file -->
+                    <div ng-if="content.type=='text' || content.type=='zip'" ng-show="!isContentLoad">
+                        <iframe ng-src="{{content.url}}" iframe-onload="dataLoadCallBack()" class="data-text topicContentShow"></iframe>
+                    </div>
+                    <!-- image file -->
+                    <div ng-if="content.type=='image'" ng-show="!isContentLoad" class="topicContentShow">
+                        <img ng-src="{{content.url}}" class="file-image" iframe-onload="dataLoadCallBack()">
+                    </div>
+                    <!-- Pdf file -->
+                    <div ng-show="content.type=='pdf'" class="topicContentShow">
+                        <div ng-if="isPdfLoading" class="loaderProgress">
+                            <div>Loading...</div>
+                            <div class="progress-bar">
+                                <span class='bar' data-ng-style='{width: downloadProgress + "%"}'></span>
+                            </div>
+                        </div>
+                        <pdf-viewer data-src="{{pdfURL}}" data-file="pdfFile" data-current-page="pdfCurrentPage" data-initial-scale="fit_page" data-api="pdfViewerAPI" data-render-text-layer="true" data-progress-callback="onPDFProgress(operation, state, value, total, message)" data-password-callback="onPDFPassword(reason)" data-search-term="{{pdfSearchTerm}}" data-search-result-id="pdfSearchResultID" data-search-num-occurences="pdfSearchNumOccurences">
+                        </pdf-viewer>
+                    </div>
+                    <!-- Epub file -->
+                    <div ng-show="content.type=='epub'" class="ePubFileViewer">
+                        <div id="ePubFileViewer"></div>
+                    </div>
+                    <div class="ContentDescription" ng-if="!isContentLoad && !isPdfLoading">
+                        <h4>{{content.title}}</h4>
+                        <p>{{content.description}}</p>
+                    </div>
+                    <div class="embeddedLinkCode" ng-if="isEmbeddedLink && user.type=='AGENT'">
+                        <h4>Embedded Link</h4>
+                        <div class="code">
+                            <div class="copyTxt" ng-click="copyToClipboard('#embeddedLinkUrlCode')">Copy</div>
+                            <code id="embeddedLinkUrlCode">
+                                &lt;iframe src="{{embeddedLinkUrl}}" width="600" height="400" frameborder="0"&gt;&lt;/iframe&gt;
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Owl Carousel -->
+        <div id="CatDirectContentList" class="owl-carousel" ng-if="direct.length > 1">
+            <div class="item" ng-repeat="(key,item) in direct" ng-init="$last && finishContent('CatDirectContentList')">
+                <div class="item-icon" ng-click="getContent(item.content)">
+                    <span ng-if="item.content.typeOfContent=='video'" class="icon video"></span>
+                    <img ng-src="{{item.content.icon}}">
+                </div>
+                <h4>{{item.content.title}}
+                </h4>
+                <h5 ng-if="item.content.typeOfContent=='video'">{{item.content.typeOfVideo}}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="topic-detail-nav col-xs-12 col-sm-4" id="categoryList">
+        <!-- Get content linking category and sub category data -->
+        <div ng-repeat="category in data.contentLinking" ng-init="$last && loadContent('categoryList',data.contentLinking,data.topicId)">
+            <!-- Category name, image -->
+            <div class="button" ng-click="getCategoryContent(category,data.topicId)" ng-class="{lock: !category.isFree && !category.isPurchased}">
+                <img ng-src="{{category.icon}}"> {{category.name}}
+            </div>
+            <!-- Sub category name -->
+            <div ng-class="{lock: !category.isFree && !category.isPurchased}" ng-if="showSubCategory == category._id">
+                <ul>
+                    <li ng-repeat="subcategory in subcategories" ng-class="(subCategoryActive==subcategory.subCategoryId) ? 'active' : '' " ng-click="getSubCategoryContent(category, subcategory)">{{subcategory.subCategoryName}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="topic-detail-info">
+    <span>Grade- </span>{{data.universalLinked[0].grade}}&nbsp;&nbsp;
+    <span>Subject- </span>{{data.universalLinked[0].subject}}&nbsp;&nbsp;
+    <span>Chapter- </span>{{data.universalLinked[0].chapter}}
+</div>
+<div class="topic-detail-h2">Description</div>
+<div class="topic-detail-desc">{{data.topicDetails.description}}</div>
+<!-- Get and post comments -->
+<div ng-include="'views/topic/comments.html'"></div>

@@ -1,0 +1,48 @@
+<div class="page-wrapper">
+    <div class="pageSrch" ng-show="page.type!='ADD'">
+        <div class="container">
+            <div class="srch">
+                <form name="searchform" ng-submit="search()">
+                    <input type="text" class="form-control" ng-model="searchItem" placeholder="{{'Search' | translate}}">
+                    <button type="submit" class="btn">{{'Search' | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="nav-tabs-menu clearfix">
+        <div class="container">
+            <ol class="breadcrumb pull-left">
+                <li class="breadcrumb-item"><a ui-sref="mylibrary.topics">My Library</a></li>
+                <li class="breadcrumb-item active">{{page.name}}
+                    <span class="data-count" ng-if="listCount && page.type=='LIST'">({{listCount}} customers)</span>
+                </li>
+                <li class="breadcrumb-item active" ng-if="renewType=='1'">Renew</li>
+            </ol>
+            <ul class="nav nav-pills nav-pills-f1 pull-right" ng-if="page.type!='PACKAGES'">
+                <li class="FilterDisplay">
+                    <div class="btn" ng-click="filterPopupShow()">Filter</div>
+                </li>
+                <li ng-if="renewType=='1'">
+                    <div class="btn" ng-click="renewExpirey()">Renew
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page container topic-list">
+        <div class="package-view-type clearfix" ng-if="page.type!='PACKAGE_DETAIL'">
+            <ul class="nav nav-pills nav-pills-tabs pull-left">
+                <li ng-class="(page.type == 'TOPICS') ? 'active' : ''">
+                    <a ui-sref="mylibrary.topics">Topic View</a>
+                </li>
+                <li ng-class="(page.type == 'PACKAGES') ? 'active' : ''">
+                    <a ui-sref="mylibrary.packages">Package View</a>
+                </li>
+                <li ng-class="(page.type == 'EXPIRED') ? 'active' : ''" ng-if="user.type=='AGENT' || user.type=='STUDENT' || user.type=='TEACHER'">
+                    <a ui-sref="mylibrary.expired">Expired Packages</a>
+                </li>
+            </ul>
+        </div>
+        <div ui-view="mylibrary"></div>
+    </div>
+</div>

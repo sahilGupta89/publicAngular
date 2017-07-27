@@ -1,0 +1,46 @@
+<div class="page-wrapper">
+    <div class="pageSrch">
+        <div class="container">
+            <div class="srch" ng-show="page.type!='BULK'">
+                <form role="form" name="searchform" ng-submit="search()">
+                    <input type="text" class="form-control" ng-model="searchItem" placeholder="{{'Search' | translate}}">
+                    <button type="submit" class="btn">{{'Search' | translate}}</button>
+                </form>
+            </div>
+            <div ng-if="user.type!='AGENT' && (page.name!='Favorite' && page.name!='History')">
+                <ul class="nav nav-pills customer-tabs">
+                    <li ng-class="getClass('library.topics')"><a ui-sref="library.topics">All Topics</a></li>
+                    <li ng-class="getClass('library.bestsellers')"><a ui-sref="library.bestsellers">Bestsellers</a></li>
+                    <li ng-class="getClass('library.newrelease')"><a ui-sref="library.newrelease">New Releases</a></li>
+                    <li ng-class="getClass('library.freetopics')"><a ui-sref="library.freetopics">Free Topics</a></li>
+                    <li ng-class="getClass('library.packages')"><a ui-sref="library.packages">Packages</a></li>
+                </ul>
+            </div>
+            <div ng-if="user.type=='AGENT'">
+                <ul class="nav nav-pills customer-tabs bulkPurchase">
+                    <li ng-class="getClass('library.topics')"><a ui-sref="library.topics">Topic wise purchase</a></li>
+                    <li ng-class="getClass('library.bulk')"><a ui-sref="library.bulk">Bulk purchase</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="fixedTopBar">
+        <div class="nav-tabs-menu clearfix">
+            <div class="container">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item active">{{page.name}}</li>
+                </ol>
+                <ul class="nav nav-pills nav-pills-f1 pull-right" ng-if="page.type!='BULK'">
+                    <li class="FilterDisplay" ng-if="page.type!='PACKAGES'">
+                        <div class="btn" ng-click="filterPopupShow()">Filter</div>
+                    </li>
+                    <li>
+                        <div class="btn" ng-click="addToCart()">Buy <span ng-if="buyLength">{{buyLength}}</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div ui-view="library"></div>
+    </div>
+</div>

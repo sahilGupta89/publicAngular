@@ -1,0 +1,24 @@
+<!-- Note Modal -->
+<div id="noteModal" class="modal fade modal-note" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <form name="noteform" ng-submit="saveNote('save')">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Note</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix" ng-if="noteAction">
+                        <div class="btn pull-right" ng-click="saveNote('delete')">Delete</div>
+                    </div>
+                    <textarea class="form-control" id="note" name="note" ng-model="note.content" required></textarea>
+                    <span ng-show="noteform.note.$dirty && noteform.note.$error.required" class="form-error">Note is required</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-green" ng-disabled="noteform.$invalid">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

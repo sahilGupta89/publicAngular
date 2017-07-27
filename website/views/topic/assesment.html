@@ -1,0 +1,28 @@
+<div class="row clearfix" ng-if="data.assessments.length > 0">
+    <div class="col-xs-12 col-sm-8 assessment-data">
+        
+        <div class="assessmentData">
+        <div class="assessmentTitle">
+            {{assessmentsName}}
+            <div class="fullScreen" ng-click="fullScreenAssessment()"></div>
+        </div>
+
+        <div class="isAssessment" ng-if="isAssessment"></div>
+
+        <div class="assessmentContent" ng-show="!isAssessment">
+            <iframe ng-src="{{assessmentsUrl}}" class="assessment-data-iframe" iframe-onload="AssessmentiframeCallBack()"></iframe>
+        </div>
+        </div>
+    </div>
+    <div class="topic-detail-nav col-xs-12 col-sm-4" id="assessmentList">
+        <!--Get Assessment List-->
+        <div ng-repeat="assessment in data.assessments" ng-init="$last && loadAssessment('assessmentList', data.assessments)">
+            <div class="button" ng-click="getAssessmentsUrl(assessment)">
+                <span class="icon assessment"></span> {{assessment.name}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="no-more-data" ng-if="assessments.data.length == 0">
+    No Data Found
+</div>

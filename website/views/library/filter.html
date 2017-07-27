@@ -1,0 +1,94 @@
+<div class="data-filter">
+    <div class="panel-group filter-panel" id="filterAccordion">
+        <!--Curriculum filter-->
+        <div class="panel panel-default" ng-if="page.type!='packagedetail'">
+            <div data-toggle="collapse" data-parent="#filterAccordion" data-target="#FilterCurriculum" aria-expanded="true" ng-click="filterTab($event);" class="filter-tab-btn">
+                <div class="panel-heading">Curriculum {{filterCurriculumCount}}</div>
+            </div>
+            <div id="FilterCurriculum" class="panel-collapse collapse fade in filter-tab-content">
+                <div class="data-filter-search">
+                    <input type="text" name="" placeholder="Search" ng-model="curriculumFilterSearch">
+                </div>
+                <div class="panel-body">
+                    <div class="checkbox radio" ng-repeat="filter in filters.boardList | filter : curriculumFilterSearch">
+                        <input type="radio" name="boardFilter" value="{{filter.board}}" ng-click="filterBoard(filter.board)" id="filterBoard_{{filter.board}}" ng-checked="filter.board==filterBy.curriculum[0]">
+                        <label for="filterBoard_{{filter.board}}">{{filter.board}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Language filter-->
+        <div class="panel panel-default" ng-if="page.type!='packagedetail'">
+            <div data-toggle="collapse" data-parent="#filterAccordion" data-target="#FilterLanguage" aria-expanded="false" ng-click="filterTab($event)" class="filter-tab-btn">
+                <div class="panel-heading">Language {{filterLanguageCount}}</div>
+            </div>
+            <div id="FilterLanguage" class="panel-collapse collapse fade filter-tab-content">
+                <div class="data-filter-search ">
+                    <input type="text" name="" placeholder="Search" ng-model="languageFilterSearch">
+                </div>
+                <div class="panel-body">
+                    <div class="checkbox" ng-repeat="filter in filters.languageList | filter : languageFilterSearch">
+                        <input type="checkbox" checklist-model="filterBy.language" checklist-value="filter.language" id="filterLanguage_{{filter.language}}">
+                        <label for="filterLanguage_{{filter.language}}">{{filter.language}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Grade filter-->
+        <div class="panel panel-default" ng-if="page.type!='packagedetail'">
+            <div data-toggle="collapse" data-parent="#filterAccordion" data-target="#FilterGrade" aria-expanded="false" ng-click="filterTab($event)" class="filter-tab-btn">
+                <div class="panel-heading">Grade {{filterGradeCount}}</div>
+            </div>
+            <div id="FilterGrade" class="panel-collapse collapse fade filter-tab-content">
+                <div class="data-filter-search">
+                    <input type="text" name="" placeholder="Search" ng-model="gradeFilterSearch">
+                </div>
+                <div class="panel-body">
+                    <div class="checkbox" ng-repeat="filter in filters.gradeList | filter : gradeFilterSearch">
+                        <input type="checkbox" checklist-model="filterBy.grade" checklist-value="filter.grade" id="filterGrade_{{filter.grade}}">
+                        <label for="filterGrade_{{filter.grade}}">{{filter.grade}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Subject filter-->
+        <div class="panel panel-default">
+            <div data-toggle="collapse" data-parent="#filterAccordion" data-target="#FilterSubject" aria-expanded="false" ng-click="filterTab($event)" class="filter-tab-btn">
+                <div class="panel-heading">Subject {{filterSubjectCount}}</div>
+            </div>
+            <div id="FilterSubject" class="panel-collapse collapse fade filter-tab-content">
+                <div class="data-filter-search">
+                    <input type="text" name="" placeholder="Search" ng-model="subjectFilterSearch">
+                </div>
+                <div class="panel-body">
+                    <div class="checkbox" ng-repeat="filter in filters.subjectList | filter : subjectFilterSearch">
+                        <input type="checkbox" checklist-model="filterBy.subject" checklist-value="filter.subject" id="filterSubject_{{filter.subject}}">
+                        <label for="filterSubject_{{filter.subject}}">{{filter.subject}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Chapter filter-->
+        <div class="panel panel-default">
+            <div data-toggle="collapse" data-parent="#filterAccordion " data-target="#FilterChapter " aria-expanded="false" ng-click="filterTab($event);" class="filter-tab-btn">
+                <div class="panel-heading">Chapter {{filterChapterCount}}</div>
+            </div>
+            <div id="FilterChapter" class="panel-collapse collapse fade filter-tab-content">
+                <div class="data-filter-search">
+                    <input type="text" name="" placeholder="Search" ng-model="chapterFilterSearch">
+                </div>
+                <div class="panel-body">
+                    <div class="checkbox" ng-repeat="filter in filters.chapterList | filter : chapterFilterSearch">
+                        <input type="checkbox" checklist-model="filterBy.chapter" checklist-value="filter.chapter" id="filterChapter_{{filter.chapter}}">
+                        <label for="filterChapter_{{filter.chapter}}">{{filter.chapter}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filterDone">
+        <div ng-if="loading" class="loader clearfix overlay"></div>
+        <div class="btn filter-clear-btn" ng-click="clearFilter()">Clear All</div>
+        <div class="btn filter-done-btn" ng-click="filterPopupHide()">Done</div>
+    </div>
+</div>

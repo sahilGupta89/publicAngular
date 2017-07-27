@@ -1,0 +1,122 @@
+<!doctype html>
+<html ng-app="sterlingApp" ng-controller="sterlingCtrl">
+
+<head>
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <title>Sterling Pixels</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta property="og:title" content="PixelsEd : Engage learners with a 360-degree learning platform" />
+    <!-- build:css assets/css/app.min.css -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="assets/css/owl.carousel.css" rel="stylesheet">
+    <link href="assets/css/angular-pdf-viewer.css" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet">
+    <link href="assets/css/loading.css" rel="stylesheet">
+    <!-- endbuild -->
+</head>
+
+<body>
+    <div ui-view="header"></div>
+    <div ui-view="page"></div>
+    <div ui-view="footer"></div>
+    <!-- js -->
+    <script src="js/lib/pdf/pdf.js"></script>
+    <!-- build:js js/app.min.js -->
+    <!-- JS (jquery, angular, ui-router, bootstrap) -->
+    <script src="js/lib/jquery-2.0.3.min.js"></script>
+    <script src="js/lib/angular.js"></script>
+    <script src="js/lib/pace.min.js"></script>
+    <script src="js/lib/angular-sanitize.js"></script>
+    <script src="js/lib/angular-cookies.js"></script>
+    <script src="js/lib/angular-ui-router.js"></script>
+    <script src="js/lib/ng-file-upload.min.js"></script>
+    <script src="js/lib/angular-translate.js"></script>
+    <script src="js/lib/angular-translate-loader-static-files.js"></script>
+    <script src="js/lib/checklist-model.js"></script>
+    <script src="js/lib/owl.carousel.min.js"></script>
+    <script src="js/lib/epub.js"></script>
+    <script src="js/lib/zip.min.js"></script>
+    <script src="js/lib/angular-touch.min.js"></script>
+    <script src="js/lib/angular-animate.min.js"></script>
+    <script src="js/lib/favico.min.js"></script>
+    <script src="js/lib/alasql/alasql.min.js"></script>
+    <script src="js/lib/alasql/xlsx.core.min.js"></script>
+    <!--js for Pdf view-->
+    <script src="js/lib/pdf/text_layer_builder.js"></script>
+    <script src="js/lib/pdf/annotations_layer_builder.js"></script>
+    <script src="js/lib/pdf/ui_utils.js"></script>
+    <script src="js/lib/pdf/angular-pdf-viewer.js"></script>
+    <!--Bootstrap js-->
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/moment.js"></script>
+    <script src="js/lib/bootstrap-datetimepicker.js"></script>
+    <script src="js/lib/ui-bootstrap-tpls-2.1.3.min.js"></script>
+    <!-- JavaScript API (Google Plus, Google Maps, Auto Complete, Facebook)-->
+    <script src="js/lib/angular-google-plus.min.js"></script>
+    <script src="js/lib/vs-google-autocomplete.js"></script>
+    <script src="js/lib/ngFacebook.js"></script>
+    <script src="js/lib/angular-socialshare.js"></script>
+    <!-- Graphs -->
+    <script src="js/lib/graph/highcharts.js"></script>
+    <script src="js/lib/graph/highcharts-3d.js"></script>
+    <script src="js/lib/graph/highcharts-more.js"></script>
+    <script src="js/lib/graph/solid-gauge.js"></script>
+    <!-- JS (routing) -->
+    <script src="js/app.js"></script>
+    <script src="js/config.js"></script>
+    <!-- JS (Controller) -->
+    <script src="js/controller/sterlingCtrl.js"></script>
+    <script src="js/controller/HomeCtrl.js"></script>
+    <script src="js/controller/headerCtrl.js"></script>
+    <script src="js/controller/RegisterCtrl.js"></script>
+    <script src="js/controller/cartCtrl.js"></script>
+    <script src="js/controller/profileCtrl.js"></script>
+    <script src="js/controller/settingsCtrl.js"></script>
+    <script src="js/controller/paymentCtrl.js"></script>
+    <script src="js/controller/notificationCtrl.js"></script>
+    <script src="js/controller/dashboardCtrl.js"></script>
+    <!-- Login & forgot password controller -->
+    <script src="js/controller/login/loginCtrl.js"></script>
+    <script src="js/controller/login/forgotPasswordCtrl.js"></script>
+    <!-- Topic Controller -->
+    <script src="js/controller/topic/topicCtrl.js"></script>
+    <script src="js/controller/topic/topicContentCtrl.js"></script>
+    <script src="js/controller/topic/topicAssesmentCtrl.js"></script>
+    <!-- Customer -->
+    <script src="js/controller/customer/customerCtrl.js"></script>
+    <script src="js/controller/customer/customerListCtrl.js"></script>
+    <script src="js/controller/customer/customerAddCtrl.js"></script>
+    <script src="js/controller/customer/customerShareTopicCtrl.js"></script>
+    <script src="js/controller/customer/customerViewCtrl.js"></script>
+    <!-- Home Controller -->
+    <script src="js/controller/library/libraryCtrl.js"></script>
+    <script src="js/controller/library/libraryTopicsCtrl.js"></script>
+    <script src="js/controller/library/libraryPackagesCtrl.js"></script>
+    <script src="js/controller/library/libraryBulkTopicsCtrl.js"></script>
+    <!-- My Library Controller -->
+    <script src="js/controller/mylibrary/myLibraryCtrl.js"></script>
+    <script src="js/controller/mylibrary/myLibraryTopicsCtrl.js"></script>
+    <script src="js/controller/mylibrary/myLibraryPackagesCtrl.js"></script>
+    <script src="js/controller/mylibrary/myLibraryExpiredPackagesCtrl.js"></script>
+    <!-- JS (Services) -->
+    <script src="js/services/serverApi.js"></script>
+    <script src="js/services/authentication.js"></script>
+    <script src="js/services/share.js"></script>
+    <script src="js/services/angularjs-dropdown-multiselect.js"></script>
+    <script src="js/services/favicoService.js"></script>
+    <script src="js/services/angular-base64.js"></script>
+    <!-- JS (Directives) -->
+    <script src="js/directives/passwordConfirm.js"></script>
+    <script src="js/directives/starRating.js"></script>
+    <script src="js/directives/iframeOnload.js"></script>
+    <script src="js/directives/angular-jwplayer.js"></script>
+    <!-- endbuild -->
+    <script src="//maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCQ-ZnLlRJnA4gi6lFRprZVfxmndZPeSVE"></script>
+    <script src="//content.jwplatform.com/libraries/xGorftEK.js"></script>
+</body>
+
+</html>

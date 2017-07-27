@@ -1,0 +1,63 @@
+<div class="page container topic-list">
+    <form method="post" ng-submit="addTocart()">
+        <div class="register-page bulk-topics">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 form-group" ng-if="content.language.length > 0">
+                    <label>Language <span class="red">*</span></label>
+                    <multiselect multiple="true" ng-model="data.language" options="language for language in content.language" change="selected()"></multiselect>
+                </div>
+                <div class="col-xs-12 col-sm-6 form-group">
+                    <label>Curriculum <span class="red">*</span></label>
+                    <multiselect multiple="true" ng-model="data.board" options="board for board in content.curriculum" change="selected()" ng-if="content.curriculum.length > 0"></multiselect>
+                    <select class="form-control" ng-disabled="true" ng-if="content.curriculum.length==0">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-6 form-group">
+                    <label>Grade</label>
+                    <multiselect multiple="true" ng-model="data.grade" options="grade for grade in content.grade" change="selected()" ng-if="content.grade.length > 0"></multiselect>
+                    <select class="form-control" ng-disabled="true" ng-if="content.grade.length==0">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-6 form-group">
+                    <label>Subject</label>
+                    <multiselect multiple="true" ng-model="data.subject" options="subject for subject in content.subject" change="selected()" ng-if="content.subject.length > 0"></multiselect>
+                    <select class="form-control" ng-disabled="true" ng-if="content.subject.length==0">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-6 form-group">
+                    <label>Chapter</label>
+                    <multiselect multiple="true" ng-model="data.chapter" options="chapter for chapter in content.chapter" change="selected()" ng-if="content.chapter.length > 0"></multiselect>
+                    <select class="form-control" ng-disabled="true" ng-if="content.chapter.length==0">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 form-group">
+                    <div class="topic-content-category">
+                        <h3>Category & Content <span class="red">*</span></h3>
+                        <div>
+                            <input type="checkbox" id="cn_category_content_all" ng-click="checkAllCategory($event)" ng-checked="(bulkData.categoryName.length+bulkData.contentName.length)==(data.categoryName.length+data.contentType.length)">
+                            <label for="cn_category_content_all">All</label>
+                        </div>
+                        <div ng-repeat="category in bulkData.categoryName">
+                            <input type="checkbox" id="cn_category_{{category}}" checklist-model="data.categoryName" checklist-value="category">
+                            <label for="cn_category_{{category}}">{{category}}</label>
+                        </div>
+                        <div ng-repeat="content in bulkData.contentName">
+                            <input type="checkbox" id="cn_content_{{content}}" checklist-model="data.contentType" checklist-value="content">
+                            <label for="cn_content_{{content}}">{{content}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 text-center clearfix">
+                    <button type="submit" class="btn btn-orange" style="width: auto; display: inline-block;" ng-disabled="customerAddForm.$invalid || Loading">
+                        ADD To CART</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Loading -->
+<div class="loader" ng-if="isLoading">Loading...</div>

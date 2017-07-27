@@ -1,0 +1,26 @@
+{
+    "Register": "Register",
+    "Login": "Login",
+    "Welcome": "Welcome",
+    "Logout": "Logout",
+    "Settings": "Settings",
+    "Home": "Home",
+    "MyPackage": "My Package",
+    "Favorite": "Favorite",
+    "History": "History",
+    "AllTopics": "All Topics",
+    "BestSellers": "Best Sellers",
+    "NewRelease": "New Release",
+    "FreeTopics": "Free Topics",
+    "Curriculum": "Curriculum",
+    "Grade": "Grade",
+    "Subject": "Subject",
+    "Chapter": "Chapter",
+    "Language": "Language",
+    "Search": "Search",
+
+
+    "TITLE": "Sterling Student Panel",
+    "en": "English",
+    "hi": "Hindi"
+}

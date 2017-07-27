@@ -1,0 +1,154 @@
+<div class="register-page addCustomer">
+    <!--Form Message Start-->
+    <div ng-if="msgError">
+        <div class="alert alert-danger">{{message}}</div>
+    </div>
+    <div ng-if="msgSuccess">
+        <div class="alert alert-success">{{message}}</div>
+    </div>
+    <form name="customerAddForm" ng-submit="addEditCustomer()">
+        <!-- Profile Photo -->
+        <div class="profile-pic">
+            <div class="add-photo" ngf-select="uploadFiles($file,errFiles)" name="profilePic" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="100MB" ngf-resize="{width: 200, height: 200}">
+                <div class="thumb" style="background-image:url({{step}});"></div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- User Type -->
+            <div class="col-xs-12" ng-if="page.type=='ADD' && user.type!='STUDENT'">
+                <div class="form-group">
+                    <label>Customer type <span class="red">*</span></label>
+                    <div class="radio-group clearfix">
+                        <div class="radio-control" ng-if="user.accessRights[1].add">
+                            <input type="radio" id="typeStudent" name="userType" ng-model="data.userType" value="STUDENT" ng-click="checkUserType()">
+                            <label for="typeStudent">Student</label>
+                        </div>
+                        <div class="radio-control" ng-if="user.accessRights[1].add">
+                            <input type="radio" id="typeTeacher" name="userType" ng-model="data.userType" value="TEACHER" ng-click="checkUserType()">
+                            <label for="typeTeacher">Teacher</label>
+                        </div>
+                        <div class="radio-control" ng-if="user.accessRights[2].add">
+                            <input type="radio" id="typeSubAgent" name="userType" ng-model="data.userType" value="SUB_AGENT" ng-click="checkUserType()">
+                            <label for="typeSubAgent">Sub Agent</label>
+                        </div>
+                        <div class="radio-control" ng-if="user.accessRights[2].add">
+                            <input type="radio" id="typeSchool" name="userType" ng-model="data.userType" value="SCHOOL" ng-click="checkUserType()">
+                            <label for="typeSchool">School</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <!-- First Name -->
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group" ng-class="{ 'has-error': customerAddForm.firstName.$dirty && customerAddForm.firstName.$error.required }">
+                    <label>First Name <span class="red">*</span></label>
+                    <input type="text" name="firstName" id="firstName" ng-model="data.firstName" class="form-control" ng-pattern="/^[a-zA-Z\s]*$/" autocomplete="off" required>
+                    <span ng-show="customerAddForm.firstName.$dirty && customerAddForm.firstName.$error.required" class="form-error">First name is required</span>
+                    <span ng-show="customerAddForm.firstName.$dirty && customerAddForm.firstName.$error.pattern" class="form-error">Invalid first name.</span>
+                </div>
+            </div>
+            <!-- Last Name -->
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group" ng-class="{ 'has-error': customerAddForm.lastName.$dirty && customerAddForm.lastName.$error.required }">
+                    <label>Last Name <span class="red">*</span></label>
+                    <input type="text" name="lastName" id="lastName" ng-model="data.lastName" class="form-control" ng-pattern="/^[a-zA-Z\s]*$/" autocomplete="off" required>
+                    <span ng-show="customerAddForm.lastName.$dirty && customerAddForm.lastName.$error.required" class="form-error">First name is required</span>
+                    <span ng-show="customerAddForm.lastName.$dirty && customerAddForm.lastName.$error.pattern" class="form-error">Invalid fast name.</span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <!-- Email ID -->
+            <div class="col-xs-12 col-sm-6" ng-if="page.type=='ADD'">
+                <div class="form-group" ng-class="{ 'has-error': customerAddForm.emailId.$dirty && customerAddForm.emailId.$error.required }">
+                    <label>Email ID <span class="red">*</span></label>
+                    <input type="text" ng-pattern='/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i' name="emailId" id="emailId" ng-model="data.emailId" class="form-control" autocomplete="off" required>
+                    <span ng-show="customerAddForm.emailId.$dirty && customerAddForm.emailId.$error.required" class="form-error">Email ID is required</span>
+                    <span ng-show="customerAddForm.emailId.$dirty && customerAddForm.emailId.$error.pattern" class="form-error">Invalid Email ID.</span>
+                </div>
+            </div>
+            <!-- Phone Number -->
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group" ng-class="{ 'has-error': customerAddForm.countryCode.$dirty && customerAddForm.countryCode.$error.required }">
+                    <label>Phone Number <span class="red">*</span></label>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <select class="form-control" id="countryCode" ng-model="data.countryCode">
+                                <option ng-repeat="value in country" value="{{value.dial_code}}">
+                                    ({{value.dial_code}}) - {{value.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-xs-8" style="padding-left:0px;">
+                            <input type="text" name="mobileNo" id="mobileNo" ng-model="data.mobileNo" class="form-control number" autocomplete="off" ng-pattern="/^[0-9]{10,10}$/" ng-required="true" maxlength="10">
+                        </div>
+                    </div>
+                    <span ng-if="customerAddForm.mobileNo.$dirty && customerAddForm.mobileNo.$error.required" class="form-error">Phone Number is required</span>
+                    <span ng-if="customerAddForm.mobileNo.$dirty && customerAddForm.mobileNo.$error.pattern" class="form-error">Please enter valid phone number</span>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 form-group" ng-if="data.userType!='STUDENT' && user.license > 0">
+                <label>Assign license :</label>
+                <input type="number" class="form-control" name="license" ng-model="data.license" max="{{license}}">
+                <div style="font-size: 12px;color: #999; padding-top:2px;">Available license : {{user.license}}</div>
+                <span ng-show="customerAddForm.license.$dirty && customerAddForm.license.$error.max" class="form-error">Assign license must be less than {{license - 1}}.</span>
+            </div>
+        </div>
+        <div class="row" ng-if="data.userType!='STUDENT' && user.type!='STUDENT'">
+            <div class="agentLicense clearfix">
+                <div class="col" ng-repeat="permission in user.accessRights" ng-if="(user.accessRights[$index].view || user.accessRights[$index].edit || user.accessRights[$index].add || user.accessRights[$index].view || user.accessRights[$index].assign || user.accessRights[$index].peer_view) && ((data.userType=='TEACHER' && (permission.key=='MANAGE_TOPICS' || permission.key=='MANAGE_CUSTOMERS')) || ((data.userType=='SUB_AGENT' || data.userType=='SCHOOL') && (permission.key=='MANAGE_TOPICS' || permission.key=='MANAGE_CUSTOMERS' || permission.key=='SETTINGS')))">
+                    <h3>
+                        <span ng-if="permission.key=='MANAGE_TOPICS'">Topics</span>
+                        <span ng-if="permission.key=='MANAGE_CUSTOMERS'">Customers</span>
+                        <span ng-if="permission.key=='SETTINGS'">Sub Agents</span>
+                    </h3>
+                    <ul class="clearfix">
+                        <li ng-if="permission.hasOwnProperty('view') && user.accessRights[$index].view==true">
+                            <div class="select pull-left">
+                                <input type="checkbox" id="{{permission.key}}_view" ng-model="data.accessRights[$index].view" ng-value="permission.view">
+                                <label for="{{permission.key}}_view">View</label>
+                            </div>
+                        </li>
+                        <li ng-if="permission.hasOwnProperty('edit') && user.accessRights[$index].edit==true">
+                            <div class="select pull-left">
+                                <input type="checkbox" id="{{permission.key}}_edit" ng-model="data.accessRights[$index].edit" ng-value="permission.edit">
+                                <label for="{{permission.key}}_edit">Edit</label>
+                            </div>
+                        </li>
+                        <li ng-if="permission.hasOwnProperty('add') && user.accessRights[$index].add==true">
+                            <div class="select pull-left">
+                                <input type="checkbox" id="{{permission.key}}_add" ng-model="data.accessRights[$index].add" ng-value="permission.add">
+                                <label for="{{permission.key}}_add">Add</label>
+                            </div>
+                        </li>
+                        <li ng-if="permission.hasOwnProperty('delete') && user.accessRights[$index].delete==true">
+                            <div class="select pull-left">
+                                <input type="checkbox" id="{{permission.key}}_delete" ng-model="data.accessRights[$index].delete" ng-value="permission.delete">
+                                <label for="{{permission.key}}_delete">Delete</label>
+                            </div>
+                        </li>
+                        <li ng-if="permission.hasOwnProperty('assign') && user.accessRights[$index].assign==true">
+                            <div class="select pull-left">
+                                <input type="checkbox" id="{{permission.key}}_assign" ng-model="data.accessRights[$index].assign" ng-value="permission.assign">
+                                <label for="{{permission.key}}_assign">Assign</label>
+                            </div>
+                        </li>
+                        <li ng-if="permission.hasOwnProperty('peer_view') && user.accessRights[$index].peer_view==true">
+                            <div class="select pull-left">
+                                <input type="checkbox" id="{{permission.key}}_peer_view" ng-model="data.accessRights[$index].peer_view" ng-value="permission.peer_view">
+                                <label for="{{permission.key}}_peer_view">Peer View</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 form-group text-center clearfix ">
+                <button type="submit " class="btn btn-orange " ng-disabled="customerAddForm.$invalid || Loading">
+                    {{page.type}} {{data.userType}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="loader" ng-if="isLoading">Loading...</div>

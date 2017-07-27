@@ -1,0 +1,366 @@
+<div class="page-wrapper">
+    <div class="profile-banner">
+        <img ng-src="{{data.profilePicUrl}}" class="cover-photo" ng-if="!profilePicChange && data.profilePicUrl">
+        <img src="assets/images/photo-topic.jpg" class="cover-photo" ng-if="!profilePicChange && !data.profilePicUrl">
+        <img ng-src="{{profilePicChange}}" class="cover-photo" ng-if="profilePicChange">
+    </div>
+    <div class="page container profile-page" id="fixedForProfile">
+        <!-- View User Profile -->
+        <div class="profile-wrap clearfix" ng-if="!editable">
+            <div class="btn edit-btn" ng-click="editView()"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</div>
+            <div class="user-photo" ng-if="data.profilePicUrl" style="background-image:url({{data.profilePicUrl}})"></div>
+            <div class="user-photo default" ng-if="!data.profilePicUrl"></div>
+            <div class="row col-xs-12 col-sm-6 no-gutter" ng-if="data.firstName || data.lastName">
+                <div class="col-xs-5 txt-label">Name</div>
+                <div class="col-xs-7">{{data.firstName}} {{data.lastName}}</div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter">
+                <div class="col-xs-5 txt-label">Email ID</div>
+                <div class="col-xs-7">{{data.emailId}}</div>
+            </div>
+            
+            <div class="row col-xs-12 col-sm-6 no-gutter" ng-if="(user.type=='STUDENT' || user.type=='TEACHER') && data.curriculum">
+                <div class="col-xs-5 txt-label">Curriculum</div>
+                <div class="col-xs-7">
+                    {{data.curriculum}}
+                </div>
+            </div>
+
+
+            <div class="row col-xs-12 col-sm-6 no-gutter" ng-if="(user.type=='STUDENT' || user.type=='TEACHER') && data.grade">
+                <div class="col-xs-5 txt-label">Grade</div>
+                <div class="col-xs-7">
+                    <span ng-repeat="grade in data.grade">{{grade}}{{$last ? '' : ', '}}</span>
+                </div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter">
+                <div class="col-xs-5 txt-label">Phone No.</div>
+                <div class="col-xs-7">{{data.mobileNo}}</div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter" ng-if="data.gender">
+                <div class="col-xs-5 txt-label">Gender</div>
+                <div class="col-xs-7">{{data.gender}}</div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter" ng-if="data.addressValue">
+                <div class="col-xs-5 txt-label">Address</div>
+                <div class="col-xs-7">{{data.addressValue}}</div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter">
+                <div class="col-xs-5 txt-label">User Type</div>
+                <div class="col-xs-7">{{data.userType}}</div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter">
+                <div class="col-xs-5 txt-label">Date of Birth</div>
+                <div class="col-xs-7">{{ data.dob | date : "dd/MM/y" }}</div>
+            </div>
+            <div class="row col-xs-12 col-sm-6 no-gutter" ng-if="(user.type=='STUDENT' || user.type=='TEACHER') && (data.sessionTo || data.sessionFrom)">
+                <div class="col-xs-5 txt-label">Session Detail</div>
+                <div class="col-xs-7">{{ data.sessionFrom | date : "dd/MM/y" }} to {{ data.sessionTo | date : "dd/MM/y" }}</div>
+            </div>
+        </div>
+        <!-- Edit User Profile -->
+        <div class="profile-wrap editable clearfix" ng-if="editable">
+            <div ng-if="checkoutMessage">
+                <div class="alert alert-info">{{checkoutMessage}}</div>
+            </div>
+            <!-- Edit User Detail -->
+            <form name="userform" ng-submit="editProfile()" ng-show="!optData">
+                <div class="user-photo" ng-if="!profilePicChange && data.profilePicUrl" style="background-image:url({{data.profilePicUrl}})" ngf-select="uploadFiles($file,errFiles)" name="profilePic" ngf-accept="'image/*'" ngf-max-size="100MB" ngf-resize="{width: 200, height: 200}"></div>
+                <div class="user-photo default" ng-if="!profilePicChange && !data.profilePicUrl" ngf-select="uploadFiles($file,errFiles)" name="profilePic" ngf-accept="'image/*'" ngf-max-size="100MB" ngf-resize="{width: 200, height: 200}"></div>
+                <div class="user-photo" ng-if="profilePicChange" style="background-image:url({{profilePicChange}})"></div>
+                <div class="btn-edit-icon" ngf-select="uploadFiles($file,errFiles)" name="profilePic" ngf-accept="'image/*'" ngf-max-size="100MB" ngf-resize="{width: 200, height: 200}"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+                <div ng-if="msgError">
+                    <div class="alert alert-danger">{{message}}</div>
+                </div>
+                <div class="row">
+                    <!--First Name-->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">First Name <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input type="text" class="form-control" name="firstName" id="firstName" ng-model="user.firstName" ng-pattern="/^[a-zA-Z\s]*$/" autocomplete="off" ng-required="true">
+                            <span ng-show="userform.firstName.$dirty && userform.firstName.$error.required" class="form-error">First name is required</span>
+                            <span ng-show="userform.firstName.$dirty && userform.firstName.$error.pattern" class="form-error">Invalid first name.</span>
+                        </div>
+                    </div>
+                    <!--Last Name-->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Last Name <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input type="text" class="form-control" name="lastName" id="lastName" ng-model="user.lastName" ng-pattern="/^[a-zA-Z\s]*$/" autocomplete="off" ng-required="true">
+                            <span ng-show="userform.lastName.$dirty && userform.lastName.$error.required" class="form-error">Last name is required</span>
+                            <span ng-show="userform.lastName.$dirty && userform.lastName.$error.pattern" class="form-error">Invalid last name.</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- Location -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Address <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input vs-google-autocomplete ng-model="user.addressValue" vs-latitude="user.latitude" vs-longitude="user.longitude" vs-city="user.city" vs-state="user.state" vs-country="user.country" vs-country-short="countryShort" vs-post-code="user.zip" type="text" name="addressValue" id="addressValue" class="form-control" autocomplete="off" ng-required="true" ng-change="checkAddress();">
+                            <span ng-show="userform.addressValue.$dirty && userform.addressValue.$error.required" class="form-error">Location is required</span>
+                        </div>
+                    </div>
+                    <!-- Phone Number -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Phone Number <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <select class="form-control" id="countryCode" ng-model="user.countryCode">
+                                        <option ng-repeat="value in country" value="{{value.dial_code}}">
+                                            ({{value.dial_code}}) - {{value.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-8" style="padding-left:0px;">
+                                    <input type="text" name="mobileNo" id="mobileNo" ng-model="user.mobileNo" class="form-control number" autocomplete="off" ng-pattern="/^[0-9]{10,10}$/" ng-required="true" maxlength="10">
+                                </div>
+                            </div>
+                        </div>
+                        <span ng-show="userform.mobileNo.$dirty && userform.mobileNo.$error.required" class="form-error">Phone number is required</span>
+                        <span ng-show="userform.mobileNo.$dirty && userform.mobileNo.$error.pattern" class="form-error">Please enter valid phone number</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- City -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">City <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input type="text" class="form-control" name="city" id="city" ng-model="user.city" autocomplete="off" ng-required="true">
+                            <span ng-show="userform.city.$dirty && userform.city.$error.required" class="form-error">City is required</span>
+                        </div>
+                    </div>
+                    <!-- State -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">State <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input type="text" class="form-control" name="state" id="state" ng-model="user.state" autocomplete="off" ng-required="true">
+                            <span ng-show="userform.state.$dirty && userform.state.$error.required" class="form-error">State is required</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- Country -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Country <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input type="text" class="form-control" name="country" id="country" ng-model="user.country" autocomplete="off" ng-required="true">
+                            <span ng-show="userform.country.$dirty && userform.country.$error.required" class="form-error">Country is required</span>
+                        </div>
+                    </div>
+                    <!--Zip Code-->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Zip Code <span class="red">*</span>:</div>
+                        <div class="col-xs-8 fld-control">
+                            <input type="text" class="form-control" name="zipCode" id="zipCode" ng-model="user.zip" ng-pattern="/^[0-9]{6,8}$/" autocomplete="off" ng-required="true">
+                            <span ng-show="userform.zipCode.$dirty && userform.zipCode.$error.required" class="form-error">Zip code is required</span>
+                            <span ng-show="userform.zipCode.$dirty && userform.zipCode.$error.pattern" class="form-error">Invalid zip code.</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- Gender -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Gender :</div>
+                        <div class="col-xs-8 fld-control">
+                            <div class="radio-group clearfix">
+                                <div class="radio-control">
+                                    <input type="radio" id="gender_male" name="gender" ng-model="user.gender" value="MALE">
+                                    <label for="gender_male">Male</label>
+                                </div>
+                                <div class="radio-control">
+                                    <input type="radio" id="gender_female" name="gender" ng-model="user.gender" value="FEMALE">
+                                    <label for="gender_female">Female</label>
+                                </div>
+                                <div class="radio-control">
+                                    <input type="radio" id="gender_others" name="gender" ng-model="user.gender" value="OTHERS">
+                                    <label for="gender_others">Others</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Date of Birth -->
+                    <div class="col-xs-12 col-sm-6 no-gutter colum">
+                        <div class="col-xs-4 txt-label">Date of Birth : </div>
+                        <div class="col-xs-8 fld-control">
+                            <div class="clearfix datepickFld">
+                                <div class="col-xs-4">
+                                    <select ng-model="dateOfBirth.dd" class="form-control">
+                                        <option value="">Day</option>
+                                        <option value="01">1</option>
+                                        <option value="02">2</option>
+                                        <option value="03">3</option>
+                                        <option value="04">4</option>
+                                        <option value="05">5</option>
+                                        <option value="06">6</option>
+                                        <option value="07">7</option>
+                                        <option value="08">8</option>
+                                        <option value="09">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select ng-model="dateOfBirth.mm" class="form-control">
+                                        <option value="">Month</option>
+                                        <option value="01">Jan</option>
+                                        <option value="02">Feb</option>
+                                        <option value="03">Mar</option>
+                                        <option value="04">Apr</option>
+                                        <option value="05">May</option>
+                                        <option value="06">Jun</option>
+                                        <option value="07">Jul</option>
+                                        <option value="08">Aug</option>
+                                        <option value="09">Sept</option>
+                                        <option value="10">Oct</option>
+                                        <option value="11">Nov</option>
+                                        <option value="12">Dec</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select ng-model="dateOfBirth.yyyy" class="form-control">
+                                        <option value="">Year</option>
+                                        <option ng-repeat="n in range(year-100,year)" value="{{n}}" ng-selected="n==dateOfBirth.yyyy">{{n}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div ng-if="user.type!='AGENT'">
+                        <!-- Curriculum -->
+                        <div class="col-xs-12 col-sm-6 no-gutter colum">
+                            <div class="col-xs-4 txt-label">Curriculum :</div>
+                            <div class="col-xs-8 fld-control">
+                                <select name="curriculum" id="curriculum" ng-model="user.curriculum" ng-change="changeGrade(user.curriculum)" class="form-control">
+                                    <option value="">Select Curriculum</option>
+                                    <option ng-repeat="curriculum in curriculumList" ng-if="curriculum" value="{{curriculum}}" ng-selected="curriculum == user.curriculum">{{curriculum}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Grade -->
+                        <div class="col-xs-12 col-sm-6 no-gutter colum">
+                            <div class="col-xs-4 txt-label">grade :</div>
+                            <div class="col-xs-8 fld-control">
+                                <select name="grade" id="grade" ng-model="user.grade" class="form-control" multiple="multiple">
+                                    <option value="">Select Grade</option>
+                                    <option ng-repeat="grade in gradeList" ng-if="grade" value="{{grade}}" ng-selected="user.grade.indexOf(grade)">{{grade}}</option>
+                                </select>
+                                <span ng-show="userform.grade.$dirty && userform.grade.$error.required" class="form-error">Grade is required</span>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <!-- Session From -->
+                        <div class="col-xs-12 col-sm-6 no-gutter colum">
+                            <div class="col-xs-4 txt-label">Session From : </div>
+                            <div class="col-xs-8 fld-control">
+                                <div class="clearfix datepickFld">
+                                    <div class="col-xs-4">
+                                        <select ng-model="sessionFrom.dd" class="form-control">
+                                            <option value="">Day</option>
+                                            <option value="01">1</option>
+                                            <option value="02">2</option>
+                                            <option value="03">3</option>
+                                            <option value="04">4</option>
+                                            <option value="05">5</option>
+                                            <option value="06">6</option>
+                                            <option value="07">7</option>
+                                            <option value="08">8</option>
+                                            <option value="09">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select ng-model="sessionFrom.mm" class="form-control">
+                                            <option value="">Month</option>
+                                            <option value="01">Jan</option>
+                                            <option value="02">Feb</option>
+                                            <option value="03">Mar</option>
+                                            <option value="04">Apr</option>
+                                            <option value="05">May</option>
+                                            <option value="06">Jun</option>
+                                            <option value="07">Jul</option>
+                                            <option value="08">Aug</option>
+                                            <option value="09">Sept</option>
+                                            <option value="10">Oct</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select ng-model="sessionFrom.yyyy" class="form-control">
+                                            <option value="">Year</option>
+                                            <option ng-repeat="n in range(year,year+20)" value="{{n}}" ng-selected="n==sessionFrom.yyyy">{{n}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ProfileSaveBtns">
+                    <button type="submit" class="btn save-btn" ng-disabled="userform.$invalid || Loading">Save</button>
+                    <button type="button" class="btn cancel-btn" ng-click="cancelProfile()">Cancel</button>
+                </div>
+            </form>
+            <!-- Verify Mobile Otp -->
+            <form name="otpform" ng-submit="verifyOTPeditProfile()" ng-show="optData">
+                <div class="profile-otp">
+                    <h3>Verify your mobile number</h3>
+                    <div ng-if="msgError">
+                        <div class="alert alert-danger">{{message}}</div>
+                    </div>
+                    <!--OTP-->
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="firstName" id="firstName" ng-model="optData.otp" ng-pattern="/^[0-9]{6,6}$/" autocomplete="off" ng-required="true" placeholder="OTP Code">
+                        <span ng-show="otpform.firstName.$dirty && otpform.firstName.$error.required" class="form-error">OTP is required</span>
+                        <span ng-show="otpform.firstName.$dirty && otpform.firstName.$error.pattern" class="form-error">Invalid otp code.</span>
+                    </div>
+                    <div class="clearfix">
+                        <button type="submit" class="btn btn-orange pull-left" style="width: auto;" ng-disabled="otpform.$invalid || Loading">Verify</button>
+                        <!-- <button type="button" class="btn btn-link pull-right" ng-click="resendOTP()" ng-disabled="Loading" style=" padding-right:0px; padding-left: 0px;">Resend OTP</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="loader" ng-if="Loading">Loading...</div>

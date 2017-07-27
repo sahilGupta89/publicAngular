@@ -1,0 +1,18 @@
+<div class="page-wrapper">
+    <div class="nav-tabs-menu clearfix">
+        <div class="container">
+            <ol class="breadcrumb pull-left">
+                <li class="breadcrumb-item">Notifications</li>
+            </ol>
+        </div>
+    </div>
+    <div class="page container notification-page">
+        <div class="notificationsList" ng-if="notification.length > 0">
+            <div class="content" ng-repeat="data in notification" ng-click="navigateNotification(data)">
+                <h4>{{data.notificationMessage}}</h4>
+                <h5>{{data.dateTime | date : "dd/MM/y"}}</h5>
+            </div>
+        </div>
+        <div ng-if="isLoading" class="loader relative clearfix" style="margin:20px 0"></div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="c-btns agent-view-btns clearfix btns-float">
+    <ul class="pull-right clearfix">
+        <li ng-if="(user.accessRights[1].edit && (userDetail.userType =='STUDENT' || userDetail.userType =='TEACHER')) || (user.accessRights[2].edit && (userDetail.userType =='SUB_AGENT' || userDetail.userType =='SCHOOL'))"><a class="edit" ui-sref="customer.edit({id:userDetail._id})">Edit</a></li>
+        <li ng-if="(user.accessRights[1].delete && (userDetail.userType =='STUDENT' || userDetail.userType =='TEACHER')) || (user.accessRights[2].delete && (userDetail.userType =='SUB_AGENT' || userDetail.userType =='SCHOOL'))">
+            <a href="javascript:void(0)" class="unblock" ng-if="userDetail.block" ng-click="unblockAgent(userDetail._id)">Unblock</a>
+            <a href="javascript:void(0)" class="block" ng-if="!userDetail.block" ng-click="blockAgent(userDetail._id)">Block</a>
+        </li>
+    </ul>
+</div>
+<!-- Agent Add Success Message -->
+<div ng-if="message">
+    <div class="alert alert-success">{{message}}</div>
+</div>
+<div class="agentDetail">
+    <div class="photo default" ng-if="!userDetail.profilePicUrl"></div>
+    <div class="photo" ng-if="userDetail.profilePicUrl" style="background-image: url({{userDetail.profilePicUrl}});"></div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 agentCol">
+            <label>Name :</label>
+            <div class="text">{{page.name}}</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol">
+            <label>Type :</label>
+            <div class="text">
+                <span ng-if="userDetail.userType=='STUDENT'">Student</span>
+                <span ng-if="userDetail.userType=='TEACHER'">Teacher</span>
+                <span ng-if="userDetail.userType=='SUB_AGENT'">Sub Agent</span>
+                <span ng-if="userDetail.userType=='SCHOOL'">School</span>
+                <span ng-if="userDetail.userType=='TEACHER'">Teacher</span> &nbsp;
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol">
+            <label>Email ID :</label>
+            <div class="text">{{userDetail.emailId}}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol">
+            <label>Phone No. :</label>
+            <div class="text">{{userDetail.countryCode}}-{{userDetail.mobileNo}}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.addressValue">
+            <label>Address :</label>
+            <div class="text">{{userDetail.addressValue}}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.curriculum && (userDetail.userType=='STUDENT' || userDetail.userType=='TEACHER')">
+            <label>Curriculum :</label>
+            <div class="text">{{userDetail.curriculum}}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.grade.length > 0 && userDetail.userType=='STUDENT'">
+            <label>Grade :</label>
+            <div class="text"><span ng-repeat="grade in userDetail.grade">{{grade}}{{$last ? '' : ', '}}</span>&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.sessionFrom && userDetail.sessionTo && (userDetail.userType=='STUDENT' || userDetail.userType=='TEACHER')">
+            <label>Session :</label>
+            <div class="text">{{ userDetail.sessionFrom | date : "dd/MM/y" }} to {{ userDetail.sessionTo | date : "dd/MM/y" }}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.registrationDate">
+            <label>Registration Date :</label>
+            <div class="text">{{ userDetail.registrationDate | date : "dd/MM/y" }}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.license && userDetail.userType!='STUDENT'">
+            <label>Licence :</label>
+            <div class="text">{{userDetail.license[0].allocatedLicense - userDetail.license[0].usedLicense}}&nbsp;</div>
+        </div>
+        <div class="col-xs-12 col-sm-6 agentCol" ng-if="userDetail.domainName.length > 0 && userDetail.userType=='AGENT'">
+            <label>Domains :</label>
+            <div class="text"><span ng-repeat="domain in userDetail.domainName">{{domain}}{{$last ? '' : ', '}}</span>&nbsp;</div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive" ng-if="userDetail.userType!='STUDENT' && !Loading">
+    <table class="table table-bordered agentDetailPermission">
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Add</th>
+                <th>Delete</th>
+                <th>Assign</th>
+                <th>Peer View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="permission in userDetail.accessRights">
+                <td>
+                    <span ng-if="permission.key=='MANAGE_TOPICS'">Topics</span>
+                    <span ng-if="permission.key=='MANAGE_CUSTOMERS'">Customers</span>
+                    <span ng-if="permission.key=='SETTINGS'">Sub Agents</span>
+                </td>
+                <td>
+                    <i class="fa fa-check" aria-hidden="true" ng-if="permission.view"></i>
+                    <i class="fa fa-times" aria-hidden="true" ng-if="!permission.view"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" aria-hidden="true" ng-if="permission.edit"></i>
+                    <i class="fa fa-times" aria-hidden="true" ng-if="!permission.edit"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" aria-hidden="true" ng-if="permission.add"></i>
+                    <i class="fa fa-times" aria-hidden="true" ng-if="!permission.add"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" aria-hidden="true" ng-if="permission.delete"></i>
+                    <i class="fa fa-times" aria-hidden="true" ng-if="!permission.delete"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" aria-hidden="true" ng-if="permission.assign"></i>
+                    <i class="fa fa-times" aria-hidden="true" ng-if="!permission.assign"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" aria-hidden="true" ng-if="permission.peer_view"></i>
+                    <i class="fa fa-times" aria-hidden="true" ng-if="!permission.peer_view"></i>
+                </td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="user.type!='STUDENT' && !Loading && shared.length > 0">
+    <div class="title">Shared Topics</div>
+    <!-- Shared Topic Lists -->
+    <div class="sharedTopics cart-list-data assignedTopic">
+        <div class="topics" ng-repeat="topic in shared">
+            <div class="topic-card">
+                <div class="photo" style="background-image:url({{topic.icon}});cursor: default;" ng-if="topic.icon"></div>
+                <div class="photo" ng-if="!topic.icon" style="cursor: default;"></div>
+                <div class="topic-content">
+                    <h3 class="clearfix">
+                        <div class="pull-right btn btn-delete" ng-click="deleteSharedTopic(topic.name,topic.content,'MULTI')"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+                        {{topic.name}}
+                    </h3>
+                    <div class="desc" ng-if="user.type!='AGENT'">{{topic.description}}</div>
+                    <star-rating ng-model="topic.averageRating" max="5" readonly="true"></star-rating>
+                    <h4>{{topic.grade}}, {{topic.subject}}, {{topic.chapter}}</h4>
+                </div>
+                <div class="clearfix topic-content-category">
+                    <div ng-repeat="(key,value) in topic.content" class="tcc-merged clearfix">
+                        <div class="btn btn-cross" ng-click="deleteSharedTopic(topic.name,key,'SINGLE')"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        <h4>{{key}}</h4>
+                        <div class="dates">{{value.startDate | date : "dd/MM/y"}} to {{value.endDate | date : "dd/MM/y" }}</div>
+                        <div class="tcc clearfix">
+                            <div ng-repeat="category in value.categoryName" ng-if="category">
+                                <lable class="cart-tag">{{category}}</lable>
+                            </div>
+                            <div ng-repeat="category in value.contentType" ng-if="category">
+                                <lable class="cart-tag">{{category}}</lable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" ng-if="Loading">Loading...</div>

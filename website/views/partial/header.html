@@ -1,0 +1,104 @@
+<!--Header Start-->
+<header class="navbar navbar-default header">
+    <!-- <div class="head-top">
+        <div class="container">
+            <div class="pull-left">
+                <select ng-options="language | translate for language in languages" ng-model="language" ng-change="updateLanguage()" class="select-language"></select>
+            </div>
+        </div>
+    </div> -->
+    <div class="head-main">
+        <div class="container">
+            <!-- Logo -->
+            <div ng-if="!loggedIn">
+                <a ui-sref="home" class="navbar-brand"><img alt="Sterling" ng-src="assets/images/logo.png" /></a>
+                <div class="auth-btn clearfix">
+                    <a ui-sref="register" class="btn btn-link btn-sm">{{'Register' | translate}}</a>
+                    <a ui-sref="login" class="btn btn-link btn-sm">{{'Login' | translate}}</a>
+                </div>
+            </div>
+            <div ng-if="loggedIn">
+                <a ui-sref="mylibrary.topics" class="navbar-brand loggedin">
+                    <img alt="Sterling" ng-src="assets/images/logo.png" />
+                </a>
+                <div class="menuIcon" ng-click="sideMenu('show')"><i class="fa fa-bars" aria-hidden="true"></i></div>
+                <div class="menuOverlay" ng-click="sideMenu('hide')"></div>
+                <div class="clearfix head-main-info">
+                    <div class="headerMenu">
+                        <div class="sideMenuInfo">
+                            <div class="photo default" ng-if="!user.photo"></div>
+                            <div class="photo" ng-if="user.photo" style="background-image:url({{user.photo}})"></div>
+                            <div class="name">{{user.name}}</div>
+                            <ul class="btns clearfix">
+                                <li><a class="btn" ui-sref="profile">Profile</a></li>
+                                <li>
+                                    <div class="btn" ng-click="logout()">Logout</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li ng-if="user.type=='AGENT'">
+                                <a ng-class=" (state=='dashboard' ) ? 'active' : '' " ui-sref="dashboard ">Dashboard</a>
+                            </li>
+                            <li ng-if="user.type!='SUB_AGENT' && user.type!='SCHOOL' ">
+                                <a ng-class="(state=='library.packages' || state=='library.package' || state=='library.topics' || state=='library.bestsellers' || state=='library.newrelease' || state=='library.freetopics' ) ? 'active' : '' " ui-sref="library.topics ">Home</a>
+                            </li>
+                            <li>
+                                <a ng-class="(state=='mylibrary' || state=='mylibrary.topics' || state=='mylibrary.packages' || state=='mylibrary.packagedetail' ) ? 'active' : '' " ui-sref="mylibrary.topics ">My Library</a>
+                            </li>
+                            <li ng-if="user.type!='AGENT' && user.type!='SUB_AGENT' && user.type!='SCHOOL' ">
+                                <a ng-class="(state=='library.favourite' ) ? 'active' : '' " ui-sref="library.favourite ">Favorite</a>
+                            </li>
+                            <li ng-if="user.type!='AGENT' && user.type!='SUB_AGENT' && user.type!='SCHOOL' ">
+                                <a ng-class="(state=='library.history' ) ? 'active' : '' " ui-sref="library.history ">History</a>
+                            </li>
+                            <li ng-if="(user.type=='AGENT' || user.type=='SUB_AGENT' || user.type=='SCHOOL' || user.type=='TEACHER' ) && user.accessRights[1].view ">
+                                <a ng-class="(state=='customer' || state=='customer.list' || state=='customer.add' || state=='customer.edit' || state=='customer.view' || state=='customer.share' ) ? 'active' : '' " ui-sref="customer.list ">Customers</a>
+                            </li>
+                            <li><a ng-class="(state=='settings' ) ? 'active' : '' " ui-sref="settings ">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div class="userInfo clearfix ">
+                        <!-- Notification -->
+                        <div class="dropdown btns ">
+                            <div class="dropdown-toggle button" data-toggle="dropdown" ng-click="getAllNotifications()">
+                                <i class="fa fa-bell-o" aria-hidden="true"></i>
+                                <span ng-if="notificationCount">{{notificationCount}}</span>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-right notifications">
+                                <li class="title">Notifications</li>
+                                <li class="content" ng-if="notification.length> 0">
+                                    <div class="cols" ng-repeat="data in notification" ng-click="navigateNotification(data)">
+                                        <h4>{{data.notificationMessage}}</h4>
+                                        <h5>{{data.dateTime | date : "dd/MM/y"}}</h5>
+                                    </div>
+                                </li>
+                                <li class="loading" ng-if="isNotification"></li>
+                                <li><a class="nodata" ng-if="notification.length == 0 && !isNotification">No data found</a></li>
+                                <li><a class="viewAll" ng-if="notification.length > 0" ui-sref="notification">View All</a></li>
+                            </ul>
+                        </div>
+                        <!-- Cart -->
+                        <a ui-sref="cart" class="btns button" ng-if="user.type!='SUB_AGENT' && user.type!='SCHOOL'">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            <span ng-if="cartItem > 0">{{cartItem}}</span>
+                        </a>
+                        <!-- User info -->
+                        <div class="dropdown btns ddr">
+                            <div class="dropdown-toggle user" data-toggle="dropdown">
+                                <div class="photo default" ng-if="!user.photo"></div>
+                                <div class="photo" ng-if="user.photo" style="background-image:url({{user.photo}})"></div>
+                                <div class="name">{{user.name}}</div>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a ui-sref="profile">Profile</a></li>
+                                <li><a href="javascript:void(0);" ng-click="logout()">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--Header end-->

@@ -1,0 +1,68 @@
+<div class="page-wrapper">
+    <div class="nav-tabs-menu clearfix">
+        <div class="container">
+            <ol class="breadcrumb pull-left">
+                <li class="active">Settings</li>
+            </ol>
+        </div>
+    </div>
+    <div class="page container settings-pg">
+        <div class="settings-form">
+            <div class="settings-title">
+                Change Password
+            </div>
+            <div ng-if="msgError">
+                <div class="alert alert-danger">{{message}}</div>
+            </div>
+            <div ng-if="msgSuccess
+">
+                <div class="alert alert-success">{{message}}</div>
+            </div>
+            <form method="post" name="updataPasswordFrm" ng-submit="updatePassword()">
+                <div class="row">
+                    <div class="col-xs-12 form-group">
+                        <input type="password" name="password" id="password" placeholder="Old Password" class="form-control" ng-model="data.password" required autocomplete="off">
+                        <span ng-show="updataPasswordFrm.password.$dirty && updataPasswordFrm.password.$error.required" class="form-error">Password is required</span>
+                    </div>
+                    <div class="col-xs-12 form-group">
+                        <input type="password" name="newPassword" id="newPassword" placeholder="New Password" class="form-control" ng-model="data.newPassword" required autocomplete="off">
+                        <span ng-show="updataPasswordFrm.newPassword.$dirty && updataPasswordFrm.newPassword.$error.required" class="form-error">New Password is required</span>
+                    </div>
+                    <div class="col-xs-12 form-group">
+                        <input type="password" name="cpwd" id="cpwd" ng-model="cpwd" placeholder="Confirm New Password" class="form-control" autocomplete="off" password-confirm match-target="data.newPassword">
+                        <span ng-show="updataPasswordFrm.cpwd.$dirty && updataPasswordFrm.cpwd.$error.match" class="form-error">Please enter currect password</span>
+                    </div>
+                    <div class="col-xs-12 form-group">
+                        <button type="submit" class="btn btn-orange" ng-disabled="updataPasswordFrm.$invalid || Loading">Change Password</button>
+                    </div>
+                </div>
+            </form>
+            <!-- <div class="notification">
+                <div class="settings-title p-t-30">
+                    Notification
+                </div>
+                <div class="radio-group clearfix">
+                    <div class="radio-input">
+                        <input type="radio" name="notification" id="noti_Daily" value="Daily">
+                        <label for="noti_Daily">Daily</label>
+                    </div>
+                    <div class="radio-input">
+                        <input type="radio" name="notification" id="noti_Weekly" value="Weekly">
+                        <label for="noti_Weekly">Weekly</label>
+                    </div>
+                    <div class="radio-input">
+                        <input type="radio" name="notification" id="noti_None" value="None" checked="checked">
+                        <label for="noti_None">None</label>
+                    </div>
+                </div>
+            </div> -->
+            <div class="settings-title p-t-30">
+                Tutorial
+            </div>
+            <div class="tutorial">
+                <img src="assets/images/data/tutorial.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" ng-if="Loading">Loading...</div>
